@@ -83,22 +83,20 @@ public class UserDao implements Dao<User> {
         stmt.setNString(3, t.getPhoneNumber());
         stmt.setNString(4, t.getName());
         stmt.setInt(5, t.getLvPermission().getId());
-        stmt.setLong(6, t.getId());
+        stmt.setInt(6, t.getId());
         int row = stmt.executeUpdate();
-        System.out.println(row);
-
     }
 
     @Override
     public void delete(User t) throws SQLException {
         PreparedStatement stmt = conn.prepareStatement("DELETE FROM [user] WHERE [id] =?");
-        stmt.setLong(1, t.getId());
+        stmt.setInt(1, t.getId());
         stmt.executeUpdate();
     }
 
     public void deleteById(int id) throws SQLException {
         PreparedStatement stmt = conn.prepareStatement("DELETE FROM [user] WHERE [id] =?");
-        stmt.setLong(1, id);
+        stmt.setInt(1, id);
         stmt.executeUpdate();
     }
 

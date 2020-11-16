@@ -21,6 +21,7 @@ public class Dashboard extends javax.swing.JFrame {
 
     public Dashboard() {
         initComponents();
+        setLocationRelativeTo(null);
         panelLayout.add(home);
         panelLayout.updateUI();
         initMenu();
@@ -65,7 +66,6 @@ public class Dashboard extends javax.swing.JFrame {
     }
 
     private void onMenuChange(String id) {
-        System.out.println(id);
         if (id == currentMenuId) {
             return;
         }

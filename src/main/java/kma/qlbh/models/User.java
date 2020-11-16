@@ -10,7 +10,7 @@ import kma.qlbh.utils.LevelPermission;
  */
 public class User {
 
-    protected long id;
+    protected int id;
     protected String userName, password, phoneNumber, name;
     protected LevelPermission lvPermission;
 
@@ -26,7 +26,7 @@ public class User {
         this.lvPermission = LevelPermission.MEMBER_PERMISSION;
     }
 
-    public User(long id, String userName, String password, String phoneNumber, String name) {
+    public User(int id, String userName, String password, String phoneNumber, String name) {
         this.id = id;
         this.userName = userName;
         this.password = password;
@@ -35,7 +35,7 @@ public class User {
         this.lvPermission = LevelPermission.MEMBER_PERMISSION;
     }
 
-    public User(long id, String userName, String password, String phoneNumber, String name, LevelPermission lvPermission) {
+    public User(int id, String userName, String password, String phoneNumber, String name, LevelPermission lvPermission) {
         this.id = id;
         this.userName = userName;
         this.password = password;
@@ -44,11 +44,11 @@ public class User {
         this.lvPermission = lvPermission;
     }
 
-    public long getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -103,7 +103,7 @@ public class User {
 
     public static User resultToUser(ResultSet rs) throws SQLException {
         User user = new User();
-        user.setId(rs.getLong("id"));
+        user.setId(rs.getInt("id"));
         user.setUserName(rs.getNString("username"));
         user.setPassword(rs.getNString("password"));
         user.setName(rs.getNString("name"));

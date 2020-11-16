@@ -2,8 +2,12 @@ package kma.qlbh.interfaces.admin;
 
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
+import static javax.swing.JOptionPane.ERROR_MESSAGE;
+import static javax.swing.JOptionPane.YES_OPTION;
 import javax.swing.table.DefaultTableModel;
 import kma.qlbh.dao.UserDao;
+import kma.qlbh.interfaces.admin.staff.StaffAdd;
+import kma.qlbh.interfaces.admin.staff.StaffEdit;
 import kma.qlbh.models.User;
 
 /**
@@ -22,6 +26,8 @@ public class StaffManager extends javax.swing.JPanel {
         initComponents();
         model.addColumn("ID");
         model.addColumn("Họ và tên");
+        model.addColumn("Tên tài khoản");
+        model.addColumn("Mật khẩu");
         model.addColumn("Số điện thoại");
         model.addColumn("Ngày vào làm");
         model.addColumn("Chức vụ");
@@ -29,21 +35,23 @@ public class StaffManager extends javax.swing.JPanel {
         renderTable();
     }
 
-    private void renderTable() {
-        int numRows = model.getRowCount();
-        for (int i = 0; i < numRows; i++) {
-            model.removeRow(i);
-        }
+    public void renderTable() {
+//        int numRows = model.getRowCount();
+//        for (int i = 0; i < numRows; i++) {
+//            model.removeRow(i);
+//        }
+        model.setNumRows(0);
         try {
             ArrayList<User> users = userDao.getAll();
             for (User user : users) {
                 model.addRow(new Object[]{
-                    user.getId(), user.getName(), user.getPhoneNumber(), "10/04/2000", user.getLvPermission()
+                    user.getId(), user.getName(), user.getUserName(), user.getPassword(),
+                    user.getPhoneNumber(), "10/04/2000", user.getLvPermission().getName()
                 });
             }
         } catch (Exception e) {
             e.printStackTrace();
-            JOptionPane.showMessageDialog(null, "Có lỗi xảy ra!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Có lỗi xảy ra!", "Lỗi", ERROR_MESSAGE);
         }
     }
 
@@ -80,14 +88,29 @@ public class StaffManager extends javax.swing.JPanel {
         btnAdd.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btnAdd.setIcon(new javax.swing.ImageIcon(getClass().getResource("/kma/qlbh/resources/icons/add_25px.png"))); // NOI18N
         btnAdd.setText("Thêm");
+        btnAdd.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAddActionPerformed(evt);
+            }
+        });
 
         btnEdit.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btnEdit.setIcon(new javax.swing.ImageIcon(getClass().getResource("/kma/qlbh/resources/icons/edit_25px.png"))); // NOI18N
         btnEdit.setText("Sửa");
+        btnEdit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEditActionPerformed(evt);
+            }
+        });
 
         btnDelete.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btnDelete.setIcon(new javax.swing.ImageIcon(getClass().getResource("/kma/qlbh/resources/icons/delete_25px.png"))); // NOI18N
         btnDelete.setText("Xóa");
+        btnDelete.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDeleteActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -119,6 +142,47 @@ public class StaffManager extends javax.swing.JPanel {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
+        StaffAdd pnl = new StaffAdd(this);
+        pnl.setVisible(true);
+    }//GEN-LAST:event_btnAddActionPerformed
+
+    private void btnEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditActionPerformed
+
+        int selectedRow = tblStaff.getSelectedRow();
+        try {
+            if (selectedRow < 0) {
+                throw new Exception("Chọn nhân viên cần edit");
+            } else {
+                int id = (int) tblStaff.getValueAt(selectedRow, 0);
+                StaffEdit pnl = new StaffEdit(this, id);
+                pnl.setVisible(true);
+            }
+        } catch (Exception e) {
+
+            JOptionPane.showMessageDialog(null, e.getMessage(), "Lỗi", ERROR_MESSAGE);
+        }
+
+    }//GEN-LAST:event_btnEditActionPerformed
+
+    private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
+        int selectedRows[] = tblStaff.getSelectedRows();
+        try {
+            if (JOptionPane.showConfirmDialog(null, "Xác nhận xóa hàng loạt?", "Xóa nhân viên", ERROR_MESSAGE) != YES_OPTION) {
+                return;
+            }
+            for (int i = 0; i < selectedRows.length; i++) {
+                int selectedRow = selectedRows[i];
+                int id = (int) tblStaff.getValueAt(selectedRow, 0);
+                userDao.deleteById(id);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, e.getMessage(), "Lỗi", ERROR_MESSAGE);
+        }
+        renderTable();
+    }//GEN-LAST:event_btnDeleteActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAdd;
