@@ -3,6 +3,9 @@ package kma.qlbh.interfaces.admin;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
+import javax.swing.JFrame;
+import kma.qlbh.interfaces.Login;
+import kma.qlbh.models.User;
 import kma.qlbh.utils.IconManager;
 
 /**
@@ -24,6 +27,15 @@ public class Dashboard extends javax.swing.JFrame {
         setLocationRelativeTo(null);
         panelLayout.add(home);
         panelLayout.updateUI();
+        initMenu();
+    }
+
+    public Dashboard(User user) {
+        initComponents();
+        setLocationRelativeTo(null);
+        panelLayout.add(home);
+        panelLayout.updateUI();
+        lbName.setText(user.getName());
         initMenu();
     }
 
@@ -102,6 +114,8 @@ public class Dashboard extends javax.swing.JFrame {
 
         panelLeft = new javax.swing.JPanel();
         panelHeader = new javax.swing.JPanel();
+        lbName = new javax.swing.JLabel();
+        btnLogout = new javax.swing.JButton();
         panelMenu = new javax.swing.JPanel();
         panelLayout = new javax.swing.JPanel();
         jPanel1 = new javax.swing.JPanel();
@@ -113,17 +127,37 @@ public class Dashboard extends javax.swing.JFrame {
         panelLeft.setLayout(new java.awt.BorderLayout());
 
         panelHeader.setBackground(new java.awt.Color(255, 255, 255));
+        panelHeader.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 5, 0, 0));
         panelHeader.setPreferredSize(new java.awt.Dimension(200, 50));
+
+        lbName.setText("Trần Đức Cường");
+
+        btnLogout.setText("Đăng xuất");
+        btnLogout.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnLogoutActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout panelHeaderLayout = new javax.swing.GroupLayout(panelHeader);
         panelHeader.setLayout(panelHeaderLayout);
         panelHeaderLayout.setHorizontalGroup(
             panelHeaderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 200, Short.MAX_VALUE)
+            .addGroup(panelHeaderLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(lbName)
+                .addGap(18, 18, 18)
+                .addComponent(btnLogout, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
         panelHeaderLayout.setVerticalGroup(
             panelHeaderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 50, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelHeaderLayout.createSequentialGroup()
+                .addGap(14, 14, 14)
+                .addGroup(panelHeaderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lbName)
+                    .addComponent(btnLogout))
+                .addGap(11, 11, 11))
         );
 
         panelLeft.add(panelHeader, java.awt.BorderLayout.PAGE_START);
@@ -156,32 +190,23 @@ public class Dashboard extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void btnLogoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLogoutActionPerformed
+        // TODO add your handling code here:
+        Login loginForm = new Login();
+        loginForm.setVisible(true);
+        loginForm.pack();
+        loginForm.setLocationRelativeTo(null);
+        loginForm.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.dispose();
+    }//GEN-LAST:event_btnLogoutActionPerformed
+
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            javax.swing.UIManager.setLookAndFeel("com.formdev.flatlaf.FlatIntelliJLaf");
-        } catch (Exception ex) {
-            System.err.println("Failed to initialize LaF");
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new Dashboard().setVisible(true);
-            }
-        });
-    }
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnLogout;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JLabel lbName;
     private javax.swing.JPanel panelHeader;
     private javax.swing.JPanel panelLayout;
     private javax.swing.JPanel panelLeft;
