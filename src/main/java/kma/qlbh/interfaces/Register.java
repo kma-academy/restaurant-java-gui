@@ -2,8 +2,8 @@ package kma.qlbh.interfaces;
 
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
-import kma.qlbh.dao.UserDao;
-import kma.qlbh.models.User;
+import kma.qlbh.dao.EmployeeDao;
+import kma.qlbh.models.Employee;
 
 /**
  * @createAt Nov 7, 2020
@@ -14,6 +14,8 @@ public class Register extends javax.swing.JFrame {
     /**
      * Creates new form Register
      */
+    EmployeeDao employeeDao = new EmployeeDao();
+
     public Register() {
         initComponents();
     }
@@ -192,12 +194,17 @@ public class Register extends javax.swing.JFrame {
             if (txtUsername.getText().isEmpty() || txtPassword.getText().isEmpty() || txtPhoneNumber.getText().isEmpty()) {
                 throw new Exception("Vui lòng điền đầy đủ thông tin");
             }
-            UserDao userDao = new UserDao();
-            if (userDao.findByUserName(txtUsername.getText()) != null) {
+            if (employeeDao.findByUsername(txtUsername.getText()) != null) {
                 throw new Exception("Tài khoản đã tồn tại");
             }
-            User user = new User(txtUsername.getText(), txtPassword.getText(), txtPhoneNumber.getText(), txtName.getText());
-            userDao.save(user);
+            Employee employee = new Employee();
+            employee.setName(txtName.getText());
+            employee.setUsername(txtUsername.getText());
+            employee.setPassword(txtPassword.getText());
+            employee.setPhoneNumber(txtPhoneNumber.getText());
+            employee.setPermissionName("Nhân viên");
+            employee.setPermissionId(2);
+            employeeDao.save(employee);
             JOptionPane.showMessageDialog(null, "Đăng ký thành công");
             Login loginForm = new Login();
             loginForm.setVisible(true);

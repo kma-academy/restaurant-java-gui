@@ -2,9 +2,9 @@ package kma.qlbh.interfaces;
 
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
-import kma.qlbh.dao.UserDao;
+import kma.qlbh.dao.EmployeeDao;
 import kma.qlbh.interfaces.admin.Dashboard;
-import kma.qlbh.models.User;
+import kma.qlbh.models.Employee;
 
 /**
  * @createAt Nov 7, 2020
@@ -15,6 +15,8 @@ public class Login extends javax.swing.JFrame {
     /**
      * Creates new form Login
      */
+    EmployeeDao employeeDao = new EmployeeDao();
+
     public Login() {
         initComponents();
     }
@@ -171,33 +173,29 @@ public class Login extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginActionPerformed
-        // TODO add your handling code here:
-        UserDao userDao = new UserDao();
 
         try {
-
-            User user = userDao.findByUserName(txtUsername.getText());
-            if (user == null) {
+            Employee employee = employeeDao.findByUsername(txtUsername.getText());
+            if (employee == null) {
                 throw new Exception("Không tồn tại tài khoản!");
             }
-            if (!user.checkPassword(txtPassword.getText())) {
+            if (!employee.checkPassword(txtPassword.getText())) {
                 throw new Exception("Mật khẩu sai");
             }
 
-            switch (user.getLvPermission()) {
-                case ADMIN_PERMISSION:
-                    JOptionPane.showMessageDialog(null, "Bạn là admin");
-                    Dashboard dashboard = new Dashboard();
+            switch (employee.getPermissionName()) {
+                case "Quản lý":
+                    Dashboard dashboard = new Dashboard(employee);
                     dashboard.setVisible(true);
                     dashboard.pack();
                     dashboard.setLocationRelativeTo(null);
                     dashboard.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                     this.dispose();
                     break;
-                case MEMBER_PERMISSION:
+                case "Nhân viên":
                     JOptionPane.showMessageDialog(null, "Bạn là nhân viên");
                     break;
-                case BANNED_PERMISSION:
+                case "Nghỉ việc":
                     throw new Exception("Tài khoản của bạn đã bị khóa.\nVui lòng liên hệ admin để biết thêm chi tiết");
                 default:
                     throw new Exception("Vui lòng liên hệ admin để biết thêm chi tiết");

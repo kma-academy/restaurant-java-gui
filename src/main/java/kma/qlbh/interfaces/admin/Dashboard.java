@@ -5,7 +5,7 @@ import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import javax.swing.JFrame;
 import kma.qlbh.interfaces.Login;
-import kma.qlbh.models.User;
+import kma.qlbh.models.Employee;
 import kma.qlbh.utils.IconManager;
 
 /**
@@ -18,9 +18,10 @@ public class Dashboard extends javax.swing.JFrame {
      * Creates new form Dashboard
      */
     private String currentMenuId = "";
+    private Employee employee;
     Home home = new Home();
     OrderManager orderManager;
-    StaffManager staffManager;
+    EmployeeManager staffManager;
 
     public Dashboard() {
         initComponents();
@@ -30,12 +31,13 @@ public class Dashboard extends javax.swing.JFrame {
         initMenu();
     }
 
-    public Dashboard(User user) {
+    public Dashboard(Employee e) {
+        this.employee = e;
         initComponents();
         setLocationRelativeTo(null);
         panelLayout.add(home);
         panelLayout.updateUI();
-        lbName.setText(user.getName());
+        lbName.setText(e.getName());
         initMenu();
     }
 
@@ -86,7 +88,7 @@ public class Dashboard extends javax.swing.JFrame {
         switch (id) {
             case "QLNV":
                 if (staffManager == null) {
-                    staffManager = new StaffManager();
+                    staffManager = new EmployeeManager();
                 }
                 panelLayout.add(staffManager);
                 break;
@@ -121,6 +123,7 @@ public class Dashboard extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Trang quản lý");
         setResizable(false);
 
         panelLeft.setPreferredSize(new java.awt.Dimension(200, 680));
@@ -176,7 +179,7 @@ public class Dashboard extends javax.swing.JFrame {
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1000, Short.MAX_VALUE)
+            .addGap(0, 1005, Short.MAX_VALUE)
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -200,6 +203,10 @@ public class Dashboard extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_btnLogoutActionPerformed
 
+    public static void main(String[] args) {
+        Dashboard dashboard = new Dashboard();
+        dashboard.setVisible(true);
+    }
     /**
      * @param args the command line arguments
      */

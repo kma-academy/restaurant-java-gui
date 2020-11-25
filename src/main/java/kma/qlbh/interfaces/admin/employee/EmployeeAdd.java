@@ -1,50 +1,23 @@
-package kma.qlbh.interfaces.admin.staff;
+package kma.qlbh.interfaces.admin.employee;
 
-import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
-import kma.qlbh.dao.UserDao;
-import kma.qlbh.interfaces.admin.StaffManager;
-import kma.qlbh.models.User;
-import kma.qlbh.utils.LevelPermission;
+import kma.qlbh.dao.EmployeeDao;
+import kma.qlbh.interfaces.admin.EmployeeManager;
+import kma.qlbh.models.Employee;
 
 /**
  * @createAt Nov 16, 2020
  * @author Tran Duc Cuong<clonebmn2itt@gmail.com>
  */
-public class StaffEdit extends javax.swing.JFrame {
+public class EmployeeAdd extends javax.swing.JFrame {
 
-    StaffManager main;
-    int id;
-    UserDao userDao = new UserDao();
-    User user = null;
-    DefaultComboBoxModel<String> dcbm = new DefaultComboBoxModel<String>();
+    EmployeeManager main;
+    EmployeeDao employeeDao = new EmployeeDao();
 
-    public StaffEdit(StaffManager main, int id) {
+    public EmployeeAdd(EmployeeManager main) {
+        initComponents();
         this.main = main;
-        this.id = id;
-        try {
-            user = userDao.get(id);
-            if (user == null) {
-                throw new Exception("User không tồn tại!");
-            }
-            initComponents();
-            setLocationRelativeTo(null);
-
-            for (LevelPermission level : LevelPermission.values()) {
-                dcbm.addElement(level.getName());
-            }
-            cboPermission.setModel(dcbm);
-            lbTitle.setText("Chỉnh sửa nhân viên - " + id);
-            txtUsername.setText(user.getUserName());
-            txtPassword.setText(user.getPassword());
-            txtName.setText(user.getName());
-            txtPhoneNumber.setText(user.getPhoneNumber());
-            cboPermission.setSelectedItem(user.getLvPermission().getName());
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, e.getMessage(), "Lỗi", JOptionPane.ERROR_MESSAGE);
-            this.dispose();
-        }
-
+        setLocationRelativeTo(null);
     }
 
     /**
@@ -56,7 +29,7 @@ public class StaffEdit extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        lbTitle = new javax.swing.JLabel();
+        jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
@@ -67,7 +40,7 @@ public class StaffEdit extends javax.swing.JFrame {
         txtPassword = new javax.swing.JTextField();
         txtPhoneNumber = new javax.swing.JTextField();
         cboPermission = new javax.swing.JComboBox<>();
-        btnSave = new javax.swing.JButton();
+        btnAdd = new javax.swing.JButton();
         btnCancel = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -75,8 +48,8 @@ public class StaffEdit extends javax.swing.JFrame {
         setUndecorated(true);
         setResizable(false);
 
-        lbTitle.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        lbTitle.setText("Chỉnh sửa nhân viên - 11");
+        jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel1.setText("Thêm nhân viên");
 
         jLabel2.setText("Tên tài khoản:");
 
@@ -88,12 +61,12 @@ public class StaffEdit extends javax.swing.JFrame {
 
         jLabel6.setText("Họ tên:");
 
-        cboPermission.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Quản lý", "Nhân viên", "Thử việc", "Đã sa thải" }));
+        cboPermission.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Quản lý", "Nhân viên", "Nghỉ việc" }));
 
-        btnSave.setText("Lưu");
-        btnSave.addActionListener(new java.awt.event.ActionListener() {
+        btnAdd.setText("Thêm");
+        btnAdd.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnSaveActionPerformed(evt);
+                btnAddActionPerformed(evt);
             }
         });
 
@@ -110,40 +83,41 @@ public class StaffEdit extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(36, 36, 36)
-                .addComponent(btnSave)
+                .addComponent(btnAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(btnCancel)
                 .addGap(40, 40, 40))
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(50, 50, 50)
-                        .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(20, 20, 20)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel6, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addGap(29, 29, 29)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(txtUsername, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtName, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtPassword, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtPhoneNumber, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(cboPermission, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(50, 50, 50)
+                                .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addGap(20, 20, 20)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel6, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addGap(29, 29, 29)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(txtUsername, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtName, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtPassword, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtPhoneNumber, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(cboPermission, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(120, 120, 120)
+                        .addComponent(jLabel1)))
                 .addContainerGap(22, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(lbTitle)
-                .addGap(86, 86, 86))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(lbTitle)
+                .addComponent(jLabel1)
                 .addGap(30, 30, 30)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtUsername, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -166,7 +140,7 @@ public class StaffEdit extends javax.swing.JFrame {
                     .addComponent(jLabel5))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 55, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnSave)
+                    .addComponent(btnAdd)
                     .addComponent(btnCancel))
                 .addGap(37, 37, 37))
         );
@@ -178,42 +152,41 @@ public class StaffEdit extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_btnCancelActionPerformed
 
-    private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
+    private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
         try {
-            if (user == null) {
-                throw new Exception("User không tồn tại!");
-            }
             if (txtUsername.getText().isEmpty() || txtPassword.getText().isEmpty() || txtPhoneNumber.getText().isEmpty()) {
                 throw new Exception("Vui lòng điền đầy đủ thông tin");
             }
-            User temp = userDao.findByUserName(txtUsername.getText());
-            if (temp != null && temp.getId() != user.getId()) {
-                throw new Exception("Tên tài khoản đã tồn tại");
+            if (employeeDao.findByUsername(txtUsername.getText()) != null) {
+                throw new Exception("Tài khoản đã tồn tại");
             }
-            User user = new User(id, txtUsername.getText(), txtPassword.getText(), txtPhoneNumber.getText(), txtName.getText());
-            String namePermission = cboPermission.getSelectedItem().toString();
-            user.setLvPermission(LevelPermission.getByName(namePermission));
-            userDao.update(user);
-            JOptionPane.showMessageDialog(null, "Sửa thành công");
+            Employee e = new Employee();
+            e.setUsername(txtUsername.getText());
+            e.setPassword(txtPassword.getText());
+            e.setName(txtName.getText());
+            e.setPhoneNumber(txtPhoneNumber.getText());
+            e.setPermissionName(cboPermission.getSelectedItem().toString());
+            e.setPermissionId(cboPermission.getSelectedIndex() + 1);
+            employeeDao.save(e);
+            JOptionPane.showMessageDialog(null, "Thêm thành công");
             main.renderTable();
             this.dispose();
 
         } catch (Exception e) {
-            e.printStackTrace();
             JOptionPane.showMessageDialog(null, e.getMessage(), "Lỗi", JOptionPane.ERROR_MESSAGE);
         }
-    }//GEN-LAST:event_btnSaveActionPerformed
+    }//GEN-LAST:event_btnAddActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnAdd;
     private javax.swing.JButton btnCancel;
-    private javax.swing.JButton btnSave;
     private javax.swing.JComboBox<String> cboPermission;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel lbTitle;
     private javax.swing.JTextField txtName;
     private javax.swing.JTextField txtPassword;
     private javax.swing.JTextField txtPhoneNumber;

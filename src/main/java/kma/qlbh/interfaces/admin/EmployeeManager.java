@@ -5,24 +5,24 @@ import javax.swing.JOptionPane;
 import static javax.swing.JOptionPane.ERROR_MESSAGE;
 import static javax.swing.JOptionPane.YES_OPTION;
 import javax.swing.table.DefaultTableModel;
-import kma.qlbh.dao.UserDao;
-import kma.qlbh.interfaces.admin.staff.StaffAdd;
-import kma.qlbh.interfaces.admin.staff.StaffEdit;
-import kma.qlbh.models.User;
+import kma.qlbh.dao.EmployeeDao;
+import kma.qlbh.interfaces.admin.employee.EmployeeAdd;
+import kma.qlbh.interfaces.admin.employee.EmployeeEdit;
+import kma.qlbh.models.Employee;
 
 /**
  *
  * @author Tran Duc Cuong<clonebmn2itt@gmail.com>
  */
-public class StaffManager extends javax.swing.JPanel {
+public class EmployeeManager extends javax.swing.JPanel {
 
     /**
-     * Creates new form StaffManager
+     * Creates new form EmployeeManager
      */
     DefaultTableModel model = new DefaultTableModel();
-    UserDao userDao = new UserDao();
+    EmployeeDao employeeDao = new EmployeeDao();
 
-    public StaffManager() {
+    public EmployeeManager() {
         initComponents();
         model.addColumn("ID");
         model.addColumn("Họ và tên");
@@ -42,11 +42,11 @@ public class StaffManager extends javax.swing.JPanel {
 //        }
         model.setNumRows(0);
         try {
-            ArrayList<User> users = userDao.getAll();
-            for (User user : users) {
+            ArrayList<Employee> employees = employeeDao.getAll();
+            for (Employee employee : employees) {
                 model.addRow(new Object[]{
-                    user.getId(), user.getName(), user.getUserName(), user.getPassword(),
-                    user.getPhoneNumber(), "10/04/2000", user.getLvPermission().getName()
+                    employee.getId(), employee.getName(), employee.getUsername(), employee.getPassword(),
+                    employee.getPhoneNumber(), employee.getStartDate().toString(), employee.getPermissionName()
                 });
             }
         } catch (Exception e) {
@@ -144,7 +144,7 @@ public class StaffManager extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
-        StaffAdd pnl = new StaffAdd(this);
+        EmployeeAdd pnl = new EmployeeAdd(this);
         pnl.setVisible(true);
     }//GEN-LAST:event_btnAddActionPerformed
 
@@ -156,7 +156,7 @@ public class StaffManager extends javax.swing.JPanel {
                 throw new Exception("Chọn nhân viên cần edit");
             } else {
                 int id = (int) tblStaff.getValueAt(selectedRow, 0);
-                StaffEdit pnl = new StaffEdit(this, id);
+                EmployeeEdit pnl = new EmployeeEdit(this, id);
                 pnl.setVisible(true);
             }
         } catch (Exception e) {
@@ -175,7 +175,7 @@ public class StaffManager extends javax.swing.JPanel {
             for (int i = 0; i < selectedRows.length; i++) {
                 int selectedRow = selectedRows[i];
                 int id = (int) tblStaff.getValueAt(selectedRow, 0);
-                userDao.deleteById(id);
+                employeeDao.deleteById(id);
             }
         } catch (Exception e) {
             e.printStackTrace();
