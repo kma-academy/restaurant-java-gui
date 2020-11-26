@@ -11,12 +11,6 @@
         <maven.compiler.target>14</maven.compiler.target>
     </properties>
     <dependencies>
-        <!-- https://mvnrepository.com/artifact/org.springframework/spring-jdbc -->
-        <dependency>
-            <groupId>com.microsoft.sqlserver</groupId>
-            <artifactId>mssql-jdbc</artifactId>
-            <version>8.4.1.jre11</version>
-        </dependency>
         <dependency>
             <groupId>com.formdev</groupId>
             <artifactId>flatlafs</artifactId>
@@ -34,6 +28,28 @@
             <artifactId>mysql-connector-java</artifactId>
             <version>8.0.22</version>
         </dependency>
-
     </dependencies>
+    <name>Quản lý bán hàng</name>
+    <description>App quản lý bán hàng</description>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>2.3.2</version>
+                <configuration>  
+                    <archive>
+                        <manifest>
+                            <addClasspath>true</addClasspath>
+                            <classpathPrefix>lib/</classpathPrefix>
+                            <mainClass>kma.qlbh.interfaces.Runner</mainClass>
+                        </manifest>
+                    </archive>   
+                    <descriptorRefs>
+                        <descriptorRef>jar-with-dependencies</descriptorRef>
+                    </descriptorRefs>             
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 </project>

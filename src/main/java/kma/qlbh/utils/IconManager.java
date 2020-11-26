@@ -9,7 +9,7 @@ import javax.swing.ImageIcon;
  */
 public class IconManager {
 
-    public static String resourcesPath = "/kma/qlbh/resources/";
+    public static String resourcesPath = "/";
     public static String iconsPath = resourcesPath + "icons/";
 
     public IconManager() {

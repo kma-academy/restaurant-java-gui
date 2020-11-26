@@ -2,40 +2,43 @@ package kma.qlbh.interfaces.admin;
 
 import java.util.ArrayList;
 import javax.swing.Icon;
+import kma.qlbh.utils.IconManager;
 
 /**
  *
  * @author Tran Duc Cuong<clonebmn2itt@gmail.com>
  */
 public class MenuItem extends javax.swing.JPanel {
-
+    
     private ArrayList<MenuItem> subMenu = new ArrayList<>();
     private String id;
-
+    
     public MenuItem(String id, Icon icon, String menuName, MenuItem... subMenu) {
         initComponents();
         this.id = id;
         if (icon != null) {
             lbIcon.setIcon(icon);
+        } else {
+            lbIcon.setIcon(new IconManager().getIcon("next_page_25px.png"));
         }
         lbMenuName.setText(menuName);
         for (int i = 0; i < subMenu.length; i++) {
             this.subMenu.add(subMenu[i]);
         }
     }
-
+    
     public ArrayList<MenuItem> getSubMenu() {
         return subMenu;
     }
-
+    
     public void addSubMenu(MenuItem item) {
         this.subMenu.add(item);
     }
-
+    
     public String getId() {
         return id;
     }
-
+    
     public void changeStateMenu() {
         for (MenuItem menuItem : subMenu) {
             menuItem.setVisible(!menuItem.isVisible());
@@ -66,9 +69,6 @@ public class MenuItem extends javax.swing.JPanel {
         jPanel1.setMinimumSize(new java.awt.Dimension(45, 45));
         jPanel1.setOpaque(false);
         jPanel1.setPreferredSize(new java.awt.Dimension(45, 45));
-
-        lbIcon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/kma/qlbh/resources/icons/next_page_25px.png"))); // NOI18N
-        lbIcon.setPreferredSize(new java.awt.Dimension(25, 25));
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);

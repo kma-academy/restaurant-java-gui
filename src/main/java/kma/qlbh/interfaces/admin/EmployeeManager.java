@@ -9,6 +9,7 @@ import kma.qlbh.dao.EmployeeDao;
 import kma.qlbh.interfaces.admin.employee.EmployeeAdd;
 import kma.qlbh.interfaces.admin.employee.EmployeeEdit;
 import kma.qlbh.models.Employee;
+import kma.qlbh.utils.IconManager;
 
 /**
  *
@@ -24,6 +25,10 @@ public class EmployeeManager extends javax.swing.JPanel {
 
     public EmployeeManager() {
         initComponents();
+        IconManager im = new IconManager();
+        btnAdd.setIcon(im.getIcon("add_25px.png"));
+        btnEdit.setIcon(im.getIcon("edit_25px.png"));
+        btnDelete.setIcon(im.getIcon("delete_25px.png"));
         model.addColumn("ID");
         model.addColumn("Họ và tên");
         model.addColumn("Tên tài khoản");
@@ -86,7 +91,6 @@ public class EmployeeManager extends javax.swing.JPanel {
         jScrollPane1.setViewportView(tblStaff);
 
         btnAdd.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        btnAdd.setIcon(new javax.swing.ImageIcon(getClass().getResource("/kma/qlbh/resources/icons/add_25px.png"))); // NOI18N
         btnAdd.setText("Thêm");
         btnAdd.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -95,7 +99,6 @@ public class EmployeeManager extends javax.swing.JPanel {
         });
 
         btnEdit.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        btnEdit.setIcon(new javax.swing.ImageIcon(getClass().getResource("/kma/qlbh/resources/icons/edit_25px.png"))); // NOI18N
         btnEdit.setText("Sửa");
         btnEdit.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -104,7 +107,6 @@ public class EmployeeManager extends javax.swing.JPanel {
         });
 
         btnDelete.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        btnDelete.setIcon(new javax.swing.ImageIcon(getClass().getResource("/kma/qlbh/resources/icons/delete_25px.png"))); // NOI18N
         btnDelete.setText("Xóa");
         btnDelete.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
