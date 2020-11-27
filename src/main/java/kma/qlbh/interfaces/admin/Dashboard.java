@@ -22,6 +22,7 @@ public class Dashboard extends javax.swing.JFrame {
     Home home = new Home();
     OrderManager orderManager;
     EmployeeManager staffManager;
+    TableManager tableManager;
 
     public Dashboard() {
         initComponents();
@@ -98,6 +99,14 @@ public class Dashboard extends javax.swing.JFrame {
                     orderManager = new OrderManager();
                 }
                 panelLayout.add(orderManager);
+                break;
+            case "QLB":
+
+                if (tableManager == null) {
+                    tableManager = new TableManager();
+                }
+                panelLayout.add(tableManager);
+
                 break;
 
         }

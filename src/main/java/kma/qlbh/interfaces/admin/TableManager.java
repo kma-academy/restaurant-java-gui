@@ -6,8 +6,6 @@ import static javax.swing.JOptionPane.ERROR_MESSAGE;
 import static javax.swing.JOptionPane.YES_OPTION;
 import javax.swing.table.DefaultTableModel;
 import kma.qlbh.dao.EmployeeDao;
-import kma.qlbh.interfaces.admin.employee.EmployeeAdd;
-import kma.qlbh.interfaces.admin.employee.EmployeeEdit;
 import kma.qlbh.models.Employee;
 import kma.qlbh.utils.IconManager;
 
@@ -15,7 +13,7 @@ import kma.qlbh.utils.IconManager;
  *
  * @author Tran Duc Cuong<clonebmn2itt@gmail.com>
  */
-public class EmployeeManager extends javax.swing.JPanel {
+public class TableManager extends javax.swing.JPanel {
 
     /**
      * Creates new form EmployeeManager
@@ -23,7 +21,7 @@ public class EmployeeManager extends javax.swing.JPanel {
     DefaultTableModel model = new DefaultTableModel();
     EmployeeDao employeeDao = new EmployeeDao();
 
-    public EmployeeManager() {
+    public TableManager() {
         initComponents();
         IconManager im = new IconManager();
         btnAdd.setIcon(im.getIcon("add_25px.png"));
@@ -36,7 +34,7 @@ public class EmployeeManager extends javax.swing.JPanel {
         model.addColumn("Số điện thoại");
         model.addColumn("Ngày vào làm");
         model.addColumn("Chức vụ");
-        tblEmployees.setModel(model);
+        tblTables.setModel(model);
         renderTable();
     }
 
@@ -70,14 +68,14 @@ public class EmployeeManager extends javax.swing.JPanel {
     private void initComponents() {
 
         jScrollPane1 = new javax.swing.JScrollPane();
-        tblEmployees = new javax.swing.JTable();
+        tblTables = new javax.swing.JTable();
         btnAdd = new javax.swing.JButton();
         btnEdit = new javax.swing.JButton();
         btnDelete = new javax.swing.JButton();
 
         setBackground(new java.awt.Color(255, 0, 204));
 
-        tblEmployees.setModel(new javax.swing.table.DefaultTableModel(
+        tblTables.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -88,7 +86,7 @@ public class EmployeeManager extends javax.swing.JPanel {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jScrollPane1.setViewportView(tblEmployees);
+        jScrollPane1.setViewportView(tblTables);
 
         btnAdd.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btnAdd.setText("Thêm");
@@ -146,20 +144,20 @@ public class EmployeeManager extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
-        EmployeeAdd pnl = new EmployeeAdd(this);
-        pnl.setVisible(true);
+//        EmployeeAdd pnl = new EmployeeAdd(this);
+//        pnl.setVisible(true);
     }//GEN-LAST:event_btnAddActionPerformed
 
     private void btnEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditActionPerformed
 
-        int selectedRow = tblEmployees.getSelectedRow();
+        int selectedRow = tblTables.getSelectedRow();
         try {
             if (selectedRow < 0) {
                 throw new Exception("Chọn nhân viên cần edit");
             } else {
-                int id = (int) tblEmployees.getValueAt(selectedRow, 0);
-                EmployeeEdit pnl = new EmployeeEdit(this, id);
-                pnl.setVisible(true);
+                int id = (int) tblTables.getValueAt(selectedRow, 0);
+//                EmployeeEdit pnl = new EmployeeEdit(this, id);
+//                pnl.setVisible(true);
             }
         } catch (Exception e) {
 
@@ -169,14 +167,14 @@ public class EmployeeManager extends javax.swing.JPanel {
     }//GEN-LAST:event_btnEditActionPerformed
 
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
-        int selectedRows[] = tblEmployees.getSelectedRows();
+        int selectedRows[] = tblTables.getSelectedRows();
         try {
             if (JOptionPane.showConfirmDialog(null, "Xác nhận xóa hàng loạt?", "Xóa nhân viên", ERROR_MESSAGE) != YES_OPTION) {
                 return;
             }
             for (int i = 0; i < selectedRows.length; i++) {
                 int selectedRow = selectedRows[i];
-                int id = (int) tblEmployees.getValueAt(selectedRow, 0);
+                int id = (int) tblTables.getValueAt(selectedRow, 0);
                 employeeDao.deleteById(id);
             }
         } catch (Exception e) {
@@ -191,6 +189,6 @@ public class EmployeeManager extends javax.swing.JPanel {
     private javax.swing.JButton btnDelete;
     private javax.swing.JButton btnEdit;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable tblEmployees;
+    private javax.swing.JTable tblTables;
     // End of variables declaration//GEN-END:variables
 }
