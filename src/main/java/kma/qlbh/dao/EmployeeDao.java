@@ -97,7 +97,7 @@ public class EmployeeDao implements Dao<Employee> {
         Statement statement = conn.createStatement();
         String query = "SELECT * FROM employee WHERE employee.username = '" + userName + "'";
         ResultSet rs = statement.executeQuery(query);
-        while (rs.next()) {
+        if (rs.next()) {
             Employee employee = Employee.getFromResultSet(rs);
             return employee;
         }

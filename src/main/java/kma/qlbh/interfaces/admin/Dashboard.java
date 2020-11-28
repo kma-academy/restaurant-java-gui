@@ -213,6 +213,11 @@ public class Dashboard extends javax.swing.JFrame {
     }//GEN-LAST:event_btnLogoutActionPerformed
 
     public static void main(String[] args) {
+        try {
+            javax.swing.UIManager.setLookAndFeel("com.formdev.flatlaf.FlatIntelliJLaf");
+        } catch (Exception ex) {
+            System.err.println("Failed to initialize LaF");
+        }
         Dashboard dashboard = new Dashboard();
         dashboard.setVisible(true);
     }

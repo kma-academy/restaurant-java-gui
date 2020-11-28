@@ -5,8 +5,10 @@ import javax.swing.JOptionPane;
 import static javax.swing.JOptionPane.ERROR_MESSAGE;
 import static javax.swing.JOptionPane.YES_OPTION;
 import javax.swing.table.DefaultTableModel;
-import kma.qlbh.dao.EmployeeDao;
-import kma.qlbh.models.Employee;
+import kma.qlbh.dao.TableDao;
+import kma.qlbh.interfaces.admin.table.AddTable;
+import kma.qlbh.interfaces.admin.table.EditTable;
+import kma.qlbh.models.Table;
 import kma.qlbh.utils.IconManager;
 
 /**
@@ -19,7 +21,7 @@ public class TableManager extends javax.swing.JPanel {
      * Creates new form EmployeeManager
      */
     DefaultTableModel model = new DefaultTableModel();
-    EmployeeDao employeeDao = new EmployeeDao();
+    TableDao tableDao = new TableDao();
 
     public TableManager() {
         initComponents();
@@ -28,28 +30,19 @@ public class TableManager extends javax.swing.JPanel {
         btnEdit.setIcon(im.getIcon("edit_25px.png"));
         btnDelete.setIcon(im.getIcon("delete_25px.png"));
         model.addColumn("ID");
-        model.addColumn("Họ và tên");
-        model.addColumn("Tên tài khoản");
-        model.addColumn("Mật khẩu");
-        model.addColumn("Số điện thoại");
-        model.addColumn("Ngày vào làm");
-        model.addColumn("Chức vụ");
+        model.addColumn("Tên bàn");
+        model.addColumn("Trạng thái");
         tblTables.setModel(model);
         renderTable();
     }
 
     public void renderTable() {
-//        int numRows = model.getRowCount();
-//        for (int i = 0; i < numRows; i++) {
-//            model.removeRow(i);
-//        }
         model.setNumRows(0);
         try {
-            ArrayList<Employee> employees = employeeDao.getAll();
-            for (Employee employee : employees) {
+            ArrayList<Table> tables = tableDao.getAll();
+            for (Table t : tables) {
                 model.addRow(new Object[]{
-                    employee.getId(), employee.getName(), employee.getUsername(), employee.getPassword(),
-                    employee.getPhoneNumber(), employee.getStartDate().toString(), employee.getPermissionName()
+                    t.getId(), t.getName(), t.getStatus().getName()
                 });
             }
         } catch (Exception e) {
@@ -144,8 +137,8 @@ public class TableManager extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
-//        EmployeeAdd pnl = new EmployeeAdd(this);
-//        pnl.setVisible(true);
+        AddTable pnl = new AddTable(this);
+        pnl.setVisible(true);
     }//GEN-LAST:event_btnAddActionPerformed
 
     private void btnEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditActionPerformed
@@ -156,11 +149,11 @@ public class TableManager extends javax.swing.JPanel {
                 throw new Exception("Chọn nhân viên cần edit");
             } else {
                 int id = (int) tblTables.getValueAt(selectedRow, 0);
-//                EmployeeEdit pnl = new EmployeeEdit(this, id);
-//                pnl.setVisible(true);
+                EditTable pnl = new EditTable(this, id);
+                pnl.setVisible(true);
             }
         } catch (Exception e) {
-
+            e.printStackTrace();
             JOptionPane.showMessageDialog(null, e.getMessage(), "Lỗi", ERROR_MESSAGE);
         }
 
@@ -175,7 +168,7 @@ public class TableManager extends javax.swing.JPanel {
             for (int i = 0; i < selectedRows.length; i++) {
                 int selectedRow = selectedRows[i];
                 int id = (int) tblTables.getValueAt(selectedRow, 0);
-                employeeDao.deleteById(id);
+                tableDao.deleteById(id);
             }
         } catch (Exception e) {
             e.printStackTrace();

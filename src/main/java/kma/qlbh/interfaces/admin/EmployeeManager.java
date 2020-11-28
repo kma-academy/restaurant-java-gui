@@ -6,8 +6,8 @@ import static javax.swing.JOptionPane.ERROR_MESSAGE;
 import static javax.swing.JOptionPane.YES_OPTION;
 import javax.swing.table.DefaultTableModel;
 import kma.qlbh.dao.EmployeeDao;
-import kma.qlbh.interfaces.admin.employee.EmployeeAdd;
-import kma.qlbh.interfaces.admin.employee.EmployeeEdit;
+import kma.qlbh.interfaces.admin.employee.AddEmployee;
+import kma.qlbh.interfaces.admin.employee.EditEmployee;
 import kma.qlbh.models.Employee;
 import kma.qlbh.utils.IconManager;
 
@@ -146,7 +146,7 @@ public class EmployeeManager extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
-        EmployeeAdd pnl = new EmployeeAdd(this);
+        AddEmployee pnl = new AddEmployee(this);
         pnl.setVisible(true);
     }//GEN-LAST:event_btnAddActionPerformed
 
@@ -158,7 +158,7 @@ public class EmployeeManager extends javax.swing.JPanel {
                 throw new Exception("Chọn nhân viên cần edit");
             } else {
                 int id = (int) tblEmployees.getValueAt(selectedRow, 0);
-                EmployeeEdit pnl = new EmployeeEdit(this, id);
+                EditEmployee pnl = new EditEmployee(this, id);
                 pnl.setVisible(true);
             }
         } catch (Exception e) {

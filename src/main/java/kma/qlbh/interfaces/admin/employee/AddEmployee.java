@@ -9,12 +9,12 @@ import kma.qlbh.models.Employee;
  * @createAt Nov 16, 2020
  * @author Tran Duc Cuong<clonebmn2itt@gmail.com>
  */
-public class EmployeeAdd extends javax.swing.JFrame {
+public class AddEmployee extends javax.swing.JFrame {
 
     EmployeeManager main;
     EmployeeDao employeeDao = new EmployeeDao();
 
-    public EmployeeAdd(EmployeeManager main) {
+    public AddEmployee(EmployeeManager main) {
         initComponents();
         this.main = main;
         setLocationRelativeTo(null);

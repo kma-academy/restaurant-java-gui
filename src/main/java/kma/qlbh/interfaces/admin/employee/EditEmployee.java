@@ -9,14 +9,14 @@ import kma.qlbh.models.Employee;
  * @createAt Nov 16, 2020
  * @author Tran Duc Cuong<clonebmn2itt@gmail.com>
  */
-public class EmployeeEdit extends javax.swing.JFrame {
+public class EditEmployee extends javax.swing.JFrame {
 
     EmployeeManager main;
     int id;
     EmployeeDao employeeDao = new EmployeeDao();
     Employee employee = null;
 
-    public EmployeeEdit(EmployeeManager main, int id) {
+    public EditEmployee(EmployeeManager main, int id) {
         this.main = main;
         this.id = id;
         try {
@@ -33,8 +33,8 @@ public class EmployeeEdit extends javax.swing.JFrame {
             txtPhoneNumber.setText(employee.getPhoneNumber());
             cboPermission.setSelectedIndex(employee.getPermissionId() - 1);
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, e.getMessage(), "Lỗi", JOptionPane.ERROR_MESSAGE);
             this.dispose();
+            JOptionPane.showMessageDialog(null, e.getMessage(), "Lỗi", JOptionPane.ERROR_MESSAGE);
         }
 
     }
@@ -172,9 +172,6 @@ public class EmployeeEdit extends javax.swing.JFrame {
 
     private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
         try {
-            if (employee == null) {
-                throw new Exception("Nhân viên không tồn tại!");
-            }
             if (txtUsername.getText().isEmpty() || txtPassword.getText().isEmpty() || txtPhoneNumber.getText().isEmpty()) {
                 throw new Exception("Vui lòng điền đầy đủ thông tin");
             }
