@@ -1,5 +1,6 @@
 package kma.qlbh.interfaces.admin;
 
+import java.awt.Color;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
@@ -17,12 +18,13 @@ public class Dashboard extends javax.swing.JFrame {
     /**
      * Creates new form Dashboard
      */
-    private String currentMenuId = "";
+    private MenuItem previousItem = null;
     private Employee employee;
     Home home = new Home();
     OrderManager orderManager;
     EmployeeManager staffManager;
     TableManager tableManager;
+    CustomerManager customerManager;
 
     public Dashboard() {
         initComponents();
@@ -53,6 +55,7 @@ public class Dashboard extends javax.swing.JFrame {
         menuQLHH.addSubMenu(new MenuItem("QLLM", null, "Quản lý loại món"));
         menuQLHH.addSubMenu(new MenuItem("QLTD", null, "Quản lý thức đơn"));
         menuQLDH.addSubMenu(new MenuItem("QLB", null, "Quản lý bàn"));
+        menuQLDH.addSubMenu(new MenuItem("QLKH", null, "Quản lý khách hàng"));
         menuQLDH.addSubMenu(new MenuItem("QLDDH", null, "Quản lý đơn đặt hàng"));
 
         addMenu(menuQLNV, menuQLHH, menuQLDH, menuTK);
@@ -72,21 +75,29 @@ public class Dashboard extends javax.swing.JFrame {
             item.addMouseListener(new MouseAdapter() {
                 @Override
                 public void mousePressed(MouseEvent e) {
-                    item.changeStateMenu();
-                    onMenuChange(item.getId());
+                    item.collapseSubMenu();
+                    onMenuChange(item);
                 }
             });
         }
 
     }
 
-    private void onMenuChange(String id) {
-        if (id == currentMenuId) {
+    private void onMenuChange(MenuItem item) {
+        if (item.equals(previousItem)) {
             return;
         }
-        currentMenuId = id;
+        if (!item.sameParent(previousItem)) {
+            previousItem.closeParrentMenu();
+        } else if (previousItem != null) {
+            previousItem.setBackground(new Color(255, 255, 255));
+        }
+        if (item.getSubMenu().isEmpty()) {
+            item.setBackground(new Color(85, 172, 238));
+        }
+        previousItem = item;
         panelLayout.removeAll();
-        switch (id) {
+        switch (item.getId()) {
             case "QLNV":
                 if (staffManager == null) {
                     staffManager = new EmployeeManager();
@@ -106,7 +117,12 @@ public class Dashboard extends javax.swing.JFrame {
                     tableManager = new TableManager();
                 }
                 panelLayout.add(tableManager);
-
+                break;
+            case "QLKH":
+                if (customerManager == null) {
+                    customerManager = new CustomerManager();
+                }
+                panelLayout.add(customerManager);
                 break;
 
         }

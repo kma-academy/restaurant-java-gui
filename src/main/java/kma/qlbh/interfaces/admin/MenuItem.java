@@ -1,5 +1,6 @@
 package kma.qlbh.interfaces.admin;
 
+import java.awt.Color;
 import java.util.ArrayList;
 import javax.swing.Icon;
 import kma.qlbh.utils.IconManager;
@@ -9,13 +10,16 @@ import kma.qlbh.utils.IconManager;
  * @author Tran Duc Cuong<clonebmn2itt@gmail.com>
  */
 public class MenuItem extends javax.swing.JPanel {
-    
+
     private ArrayList<MenuItem> subMenu = new ArrayList<>();
+    private MenuItem parentMenu = null;
     private String id;
-    
+    public boolean isShowSubMenu;
+
     public MenuItem(String id, Icon icon, String menuName, MenuItem... subMenu) {
         initComponents();
         this.id = id;
+        this.isShowSubMenu = false;
         if (icon != null) {
             lbIcon.setIcon(icon);
         } else {
@@ -23,26 +27,87 @@ public class MenuItem extends javax.swing.JPanel {
         }
         lbMenuName.setText(menuName);
         for (int i = 0; i < subMenu.length; i++) {
+            subMenu[i].setParentMenu(this);
             this.subMenu.add(subMenu[i]);
         }
     }
-    
+
     public ArrayList<MenuItem> getSubMenu() {
         return subMenu;
     }
-    
+
     public void addSubMenu(MenuItem item) {
+        item.setParentMenu(this);
         this.subMenu.add(item);
     }
-    
+
     public String getId() {
         return id;
     }
-    
-    public void changeStateMenu() {
-        for (MenuItem menuItem : subMenu) {
-            menuItem.setVisible(!menuItem.isVisible());
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public MenuItem getParentMenu() {
+        return parentMenu;
+    }
+
+    public MenuItem getHighestParentMenu() {
+        MenuItem parent = this;
+        while (parent.getParentMenu() != null) {
+            parent = parent.getParentMenu();
         }
+        return parent;
+    }
+
+    public void setParentMenu(MenuItem parentMenu) {
+        this.parentMenu = parentMenu;
+    }
+
+    public void collapseSubMenu() {
+        if (isShowSubMenu) {
+            hideSubMenu();
+        } else {
+            showSubMenu();
+        }
+    }
+
+    public void showSubMenu() {
+        for (MenuItem menuItem : subMenu) {
+            menuItem.setVisible(true);
+        }
+        isShowSubMenu = true;
+    }
+
+    public void hideSubMenu() {
+        this.setBackground(new Color(255, 255, 255));
+        for (MenuItem menuItem : subMenu) {
+            menuItem.setVisible(false);
+            menuItem.hideSubMenu();
+        }
+        isShowSubMenu = false;
+    }
+
+    public void closeParrentMenu() {
+        this.setBackground(new Color(255, 255, 255));
+        MenuItem parent = getHighestParentMenu();
+        if (parent != this) {
+            parent.hideSubMenu();
+        }
+    }
+
+    public boolean equals(MenuItem obj) {
+        return obj != null && obj.getId() == id;
+    }
+
+    public boolean sameParent(MenuItem other) {
+
+        if (other == null) {
+            return true;
+        }
+        MenuItem tParent = this.getHighestParentMenu(), oParent = other.getHighestParentMenu();
+        return tParent.equals(oParent);
     }
 
     /**
@@ -61,7 +126,6 @@ public class MenuItem extends javax.swing.JPanel {
 
         setBackground(new java.awt.Color(255, 255, 255));
         setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(153, 153, 153)));
-        setOpaque(false);
         setPreferredSize(new java.awt.Dimension(200, 45));
         setLayout(new java.awt.BorderLayout());
 
