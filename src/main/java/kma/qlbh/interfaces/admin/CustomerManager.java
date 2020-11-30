@@ -5,8 +5,8 @@ import javax.swing.JOptionPane;
 import static javax.swing.JOptionPane.ERROR_MESSAGE;
 import static javax.swing.JOptionPane.YES_OPTION;
 import javax.swing.table.DefaultTableModel;
-import kma.qlbh.dao.TableDao;
-import kma.qlbh.models.Table;
+import kma.qlbh.dao.CustomerDao;
+import kma.qlbh.models.Customer;
 import kma.qlbh.utils.IconManager;
 
 /**
@@ -19,7 +19,7 @@ public class CustomerManager extends javax.swing.JPanel {
      * Creates new form EmployeeManager
      */
     DefaultTableModel model = new DefaultTableModel();
-    TableDao tableDao = new TableDao();
+    CustomerDao customerDao = new CustomerDao();
 
     public CustomerManager() {
         initComponents();
@@ -39,10 +39,10 @@ public class CustomerManager extends javax.swing.JPanel {
     public void renderTable() {
         model.setNumRows(0);
         try {
-            ArrayList<Table> tables = tableDao.getAll();
-            for (Table t : tables) {
+            ArrayList<Customer> customers = customerDao.getAll();
+            for (Customer customer : customers) {
                 model.addRow(new Object[]{
-                    t.getId(), t.getName(), t.getStatus().getName()
+                    customer.getId(), customer.getName(), customer.getPhoneNumber(), customer.getAddress(), customer.getBirthday()
                 });
             }
         } catch (Exception e) {
@@ -168,7 +168,7 @@ public class CustomerManager extends javax.swing.JPanel {
             for (int i = 0; i < selectedRows.length; i++) {
                 int selectedRow = selectedRows[i];
                 int id = (int) tblCustomer.getValueAt(selectedRow, 0);
-                tableDao.deleteById(id);
+                customerDao.deleteById(id);
             }
         } catch (Exception e) {
             e.printStackTrace();

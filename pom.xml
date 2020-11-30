@@ -11,10 +11,12 @@
         <maven.compiler.target>14</maven.compiler.target>
     </properties>
     <dependencies>
+        <!-- https://mvnrepository.com/artifact/com.formdev/flatlaf -->
         <dependency>
             <groupId>com.formdev</groupId>
-            <artifactId>flatlafs</artifactId>
-            <version>0.42</version>
+            <artifactId>flatlaf</artifactId>
+            <version>0.44</version>
+            <scope>runtime</scope>
         </dependency>
         <!-- https://mvnrepository.com/artifact/org.codehaus.griffon.plugins/griffon-lookandfeel-synthetica -->
         <dependency>

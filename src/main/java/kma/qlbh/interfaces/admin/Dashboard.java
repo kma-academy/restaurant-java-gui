@@ -29,19 +29,21 @@ public class Dashboard extends javax.swing.JFrame {
     public Dashboard() {
         initComponents();
         setLocationRelativeTo(null);
+        initMenu();
+        panelLayout.removeAll();
         panelLayout.add(home);
         panelLayout.updateUI();
-        initMenu();
     }
 
     public Dashboard(Employee e) {
         this.employee = e;
         initComponents();
         setLocationRelativeTo(null);
-        panelLayout.add(home);
-        panelLayout.updateUI();
         lbName.setText(e.getName());
         initMenu();
+        panelLayout.removeAll();
+        panelLayout.add(home);
+        panelLayout.updateUI();
     }
 
     private void initMenu() {
