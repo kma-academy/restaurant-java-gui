@@ -6,6 +6,8 @@ import static javax.swing.JOptionPane.ERROR_MESSAGE;
 import static javax.swing.JOptionPane.YES_OPTION;
 import javax.swing.table.DefaultTableModel;
 import kma.qlbh.dao.CustomerDao;
+import kma.qlbh.interfaces.admin.customer.AddCustomer;
+import kma.qlbh.interfaces.admin.customer.EditCustomer;
 import kma.qlbh.models.Customer;
 import kma.qlbh.utils.IconManager;
 
@@ -20,7 +22,7 @@ public class CustomerManager extends javax.swing.JPanel {
      */
     DefaultTableModel model = new DefaultTableModel();
     CustomerDao customerDao = new CustomerDao();
-
+    
     public CustomerManager() {
         initComponents();
         IconManager im = new IconManager();
@@ -35,7 +37,7 @@ public class CustomerManager extends javax.swing.JPanel {
         tblCustomer.setModel(model);
         renderTable();
     }
-
+    
     public void renderTable() {
         model.setNumRows(0);
         try {
@@ -137,28 +139,28 @@ public class CustomerManager extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
-//        AddTable pnl = new AddTable(this);
-//        pnl.setVisible(true);
+        AddCustomer pnl = new AddCustomer(this);
+        pnl.setVisible(true);
     }//GEN-LAST:event_btnAddActionPerformed
-
+    
     private void btnEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditActionPerformed
-
+        
         int selectedRow = tblCustomer.getSelectedRow();
         try {
             if (selectedRow < 0) {
                 throw new Exception("Chọn nhân viên cần edit");
             } else {
                 int id = (int) tblCustomer.getValueAt(selectedRow, 0);
-//                EditTable pnl = new EditTable(this, id);
-//                pnl.setVisible(true);
+                EditCustomer pnl = new EditCustomer(this, id);
+                pnl.setVisible(true);
             }
         } catch (Exception e) {
             e.printStackTrace();
             JOptionPane.showMessageDialog(null, e.getMessage(), "Lỗi", ERROR_MESSAGE);
         }
-
+        
     }//GEN-LAST:event_btnEditActionPerformed
-
+    
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
         int selectedRows[] = tblCustomer.getSelectedRows();
         try {

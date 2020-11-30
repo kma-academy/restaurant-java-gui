@@ -120,7 +120,6 @@ public class AddTable extends javax.swing.JFrame {
             tableManager.renderTable();
             this.dispose();
         } catch (Exception e) {
-            e.printStackTrace();
             JOptionPane.showMessageDialog(null, e.getMessage(), "Lỗi", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_btnAddActionPerformed
