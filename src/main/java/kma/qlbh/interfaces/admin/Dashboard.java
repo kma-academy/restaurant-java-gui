@@ -55,7 +55,7 @@ public class Dashboard extends javax.swing.JFrame {
         MenuItem menuTK = new MenuItem("TK", im.getIcon("futures_25px.png"), "Thống kê");
 
         menuQLHH.addSubMenu(new MenuItem("QLLM", null, "Quản lý loại món"));
-        menuQLHH.addSubMenu(new MenuItem("QLTD", null, "Quản lý thức đơn"));
+        menuQLHH.addSubMenu(new MenuItem("QLTD", null, "Quản lý thực đơn"));
         menuQLDH.addSubMenu(new MenuItem("QLB", null, "Quản lý bàn"));
         menuQLDH.addSubMenu(new MenuItem("QLKH", null, "Quản lý khách hàng"));
         menuQLDH.addSubMenu(new MenuItem("QLDDH", null, "Quản lý đơn đặt hàng"));
