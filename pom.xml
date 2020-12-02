@@ -18,6 +18,12 @@
             <version>0.44</version>
             <scope>runtime</scope>
         </dependency>
+        <!-- https://mvnrepository.com/artifact/com.formdev/flatlaf -->
+        <dependency>
+            <groupId>com.formdev</groupId>
+            <artifactId>flatlaf</artifactId>
+            <version>0.44</version>
+        </dependency>
         <!-- https://mvnrepository.com/artifact/org.codehaus.griffon.plugins/griffon-lookandfeel-synthetica -->
         <dependency>
             <groupId>org.netbeans.external</groupId>
