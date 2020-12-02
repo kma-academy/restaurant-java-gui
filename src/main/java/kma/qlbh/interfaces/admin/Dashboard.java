@@ -25,6 +25,7 @@ public class Dashboard extends javax.swing.JFrame {
     EmployeeManager staffManager;
     TableManager tableManager;
     CustomerManager customerManager;
+    FoodCategoryManager foodCategoryManager;
 
     public Dashboard() {
         initComponents();
@@ -126,7 +127,12 @@ public class Dashboard extends javax.swing.JFrame {
                 }
                 panelLayout.add(customerManager);
                 break;
-
+            case "QLLM":
+                if (foodCategoryManager == null) {
+                    foodCategoryManager = new FoodCategoryManager();
+                }
+                panelLayout.add(foodCategoryManager);
+                break;
         }
         panelLayout.updateUI();
 
