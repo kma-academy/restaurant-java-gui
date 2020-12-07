@@ -13,7 +13,7 @@ public class Database {
 
     private static Database instance = null;
 
-    private static final String JDBC_STRING = "jdbc:mysql://localhost:3306";
+    private static final String JDBC_STRING = "jdbc:mysql://localhost:3316";
     private static final String DB_USER = "root";
     private static final String DB_PASS = "army";
     private static final String DB_NAME = "restaurant";
@@ -29,6 +29,7 @@ public class Database {
         } catch (Exception e) {
             System.out.println("Connect database error:");
             System.out.println(e.toString());
+            System.exit(0);
         }
     }
 

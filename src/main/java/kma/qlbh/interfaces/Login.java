@@ -3,7 +3,6 @@ package kma.qlbh.interfaces;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import kma.qlbh.dao.EmployeeDao;
-import kma.qlbh.interfaces.admin.Dashboard;
 import kma.qlbh.models.Employee;
 
 /**
@@ -185,7 +184,7 @@ public class Login extends javax.swing.JFrame {
 
             switch (employee.getPermissionName()) {
                 case "Quản lý":
-                    Dashboard dashboard = new Dashboard(employee);
+                    kma.qlbh.interfaces.admin.Dashboard dashboard = new kma.qlbh.interfaces.admin.Dashboard(employee);
                     dashboard.setVisible(true);
                     dashboard.pack();
                     dashboard.setLocationRelativeTo(null);
@@ -193,7 +192,12 @@ public class Login extends javax.swing.JFrame {
                     this.dispose();
                     break;
                 case "Nhân viên":
-                    JOptionPane.showMessageDialog(null, "Bạn là nhân viên");
+                    kma.qlbh.interfaces.seller.Dashboard pnl = new kma.qlbh.interfaces.seller.Dashboard();
+                    pnl.setVisible(true);
+                    pnl.pack();
+                    pnl.setLocationRelativeTo(null);
+                    pnl.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                    this.dispose();
                     break;
                 case "Nghỉ việc":
                     throw new Exception("Tài khoản của bạn đã bị khóa.\nVui lòng liên hệ admin để biết thêm chi tiết");

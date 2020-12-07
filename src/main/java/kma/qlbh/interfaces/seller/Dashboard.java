@@ -136,7 +136,7 @@ public class Dashboard extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnSelectTableActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSelectTableActionPerformed
-        System.out.println("123");
+
     }//GEN-LAST:event_btnSelectTableActionPerformed
 
     public static void main(String args[]) {
