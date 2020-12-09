@@ -1,6 +1,7 @@
 package kma.qlbh.dao;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -42,7 +43,19 @@ public class FoodItemDao implements Dao<FoodItem> {
 
     @Override
     public void save(FoodItem t) throws SQLException {
-        throw new UnsupportedOperationException("Not supported yet.");
+        if (t == null) {
+            throw new SQLException("Food item rỗng");
+        }
+        String query = "INSERT INTO `food_item` (`name`, `description`, `urlImage`, `unitName`, `unitPrice`, `idCategory`) VALUES (?, ?, ?, ?, ?, ?)";
+        PreparedStatement stmt = conn.prepareStatement(query);
+//            stmt.setLong(0, t.getId());
+        stmt.setNString(1, t.getName());
+        stmt.setNString(2, t.getDescription());
+        stmt.setNString(3, t.getUrlImage());
+        stmt.setNString(4, t.getUnitName());
+        stmt.setInt(5, t.getUnitPrice());
+        stmt.setInt(6, t.getIdCategory());
+        int row = stmt.executeUpdate();
     }
 
     @Override

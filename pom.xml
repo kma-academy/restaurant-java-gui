@@ -18,11 +18,11 @@
             <version>0.44</version>
             <scope>runtime</scope>
         </dependency>
-        <!-- https://mvnrepository.com/artifact/com.formdev/flatlaf -->
+        <!-- https://mvnrepository.com/artifact/org.imgscalr/imgscalr-lib -->
         <dependency>
-            <groupId>com.formdev</groupId>
-            <artifactId>flatlaf</artifactId>
-            <version>0.44</version>
+            <groupId>org.imgscalr</groupId>
+            <artifactId>imgscalr-lib</artifactId>
+            <version>4.2</version>
         </dependency>
         <!-- https://mvnrepository.com/artifact/org.codehaus.griffon.plugins/griffon-lookandfeel-synthetica -->
         <dependency>

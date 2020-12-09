@@ -12,7 +12,7 @@ import java.util.regex.Pattern;
 public class StringToSlug {
 
     private static final Pattern NONLATIN = Pattern.compile("[^\\w-]");
-    private static final Pattern WHITESPACE = Pattern.compile("[\\s]");
+    private static final Pattern WHITESPACE = Pattern.compile("[\\s_]");
 
     public static String convert(String input) {
         String nowhitespace = WHITESPACE.matcher(input).replaceAll("-");
