@@ -1,6 +1,10 @@
 package kma.qlbh.utils;
 
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.net.URL;
+import javax.imageio.ImageIO;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 
@@ -23,5 +27,11 @@ public class ImageManager {
         } catch (Exception e) {
             return null;
         }
+    }
+
+    public void saveImage(BufferedImage bi, String name) throws IOException {
+        String pathImages = getClass().getResource(imagesPath).getPath();
+        File out = new File(pathImages + name + ".png");
+        ImageIO.write(bi, "png", out);
     }
 }

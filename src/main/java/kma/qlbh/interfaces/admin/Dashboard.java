@@ -5,6 +5,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import javax.swing.JFrame;
+import javax.swing.JPanel;
 import kma.qlbh.interfaces.Login;
 import kma.qlbh.models.Employee;
 import kma.qlbh.utils.IconManager;
@@ -21,19 +22,19 @@ public class Dashboard extends javax.swing.JFrame {
     private MenuItem previousItem = null;
     private Employee employee;
     Home home = new Home();
-    OrderManager orderManager;
-    EmployeeManager staffManager;
-    TableManager tableManager;
-    CustomerManager customerManager;
-    FoodCategoryManager foodCategoryManager;
+    OrderManager orderManager = new OrderManager();
+    EmployeeManager staffManager = new EmployeeManager();
+    TableManager tableManager = new TableManager();
+    CustomerManager customerManager = new CustomerManager();
+    FoodCategoryManager foodCategoryManager = new FoodCategoryManager();
+    FoodItemManager foodItemManager = new FoodItemManager();
+    JPanel[] cards = {home, orderManager, staffManager, tableManager, customerManager, foodCategoryManager, foodItemManager};
 
     public Dashboard() {
         initComponents();
         setLocationRelativeTo(null);
         initMenu();
-        panelLayout.removeAll();
-        panelLayout.add(home);
-        panelLayout.updateUI();
+        initLayout();
     }
 
     public Dashboard(Employee e) {
@@ -42,8 +43,14 @@ public class Dashboard extends javax.swing.JFrame {
         setLocationRelativeTo(null);
         lbName.setText(e.getName());
         initMenu();
+        initLayout();
+    }
+
+    private void initLayout() {
         panelLayout.removeAll();
-        panelLayout.add(home);
+        for (int i = 0; i < cards.length; i++) {
+            panelLayout.add(cards[i]);
+        }
         panelLayout.updateUI();
     }
 
@@ -56,7 +63,7 @@ public class Dashboard extends javax.swing.JFrame {
         MenuItem menuTK = new MenuItem("TK", im.getIcon("futures_25px.png"), "Thống kê");
 
         menuQLHH.addSubMenu(new MenuItem("QLLM", null, "Quản lý loại món"));
-        menuQLHH.addSubMenu(new MenuItem("QLTD", null, "Quản lý thực đơn"));
+        menuQLHH.addSubMenu(new MenuItem("QLMA", null, "Quản lý món ăn"));
         menuQLDH.addSubMenu(new MenuItem("QLB", null, "Quản lý bàn"));
         menuQLDH.addSubMenu(new MenuItem("QLKH", null, "Quản lý khách hàng"));
         menuQLDH.addSubMenu(new MenuItem("QLDDH", null, "Quản lý đơn đặt hàng"));
@@ -99,42 +106,32 @@ public class Dashboard extends javax.swing.JFrame {
             item.setBackground(new Color(85, 172, 238));
         }
         previousItem = item;
-        panelLayout.removeAll();
+        for (int i = 0; i < cards.length; i++) {
+            cards[i].setVisible(false);
+        }
         switch (item.getId()) {
             case "QLNV":
-                if (staffManager == null) {
-                    staffManager = new EmployeeManager();
-                }
-                panelLayout.add(staffManager);
+                staffManager.setVisible(true);
                 break;
             case "QLDDH":
-
-                if (orderManager == null) {
-                    orderManager = new OrderManager();
-                }
-                panelLayout.add(orderManager);
+                orderManager.setVisible(true);
                 break;
             case "QLB":
-
-                if (tableManager == null) {
-                    tableManager = new TableManager();
-                }
-                panelLayout.add(tableManager);
+                tableManager.setVisible(true);
                 break;
             case "QLKH":
-                if (customerManager == null) {
-                    customerManager = new CustomerManager();
-                }
-                panelLayout.add(customerManager);
+                customerManager.setVisible(true);
                 break;
             case "QLLM":
-                if (foodCategoryManager == null) {
-                    foodCategoryManager = new FoodCategoryManager();
-                }
-                panelLayout.add(foodCategoryManager);
+                foodCategoryManager.setVisible(true);
+                break;
+            case "QLMA":
+                foodItemManager.setVisible(true);
+                break;
+            default:
+                home.setVisible(true);
                 break;
         }
-        panelLayout.updateUI();
 
     }
 

@@ -9,11 +9,11 @@ import kma.qlbh.utils.TableStatus;
  *
  * @author Tran Duc Cuong<clonebmn2itt@gmail.com>
  */
-public class TableItem extends javax.swing.JPanel {
+public class TablePane extends javax.swing.JPanel {
 
     Table table;
 
-    public TableItem(Table table) {
+    public TablePane(Table table) {
         this.table = table;
         initComponents();
         lbName.setText(table.getName());

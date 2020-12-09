@@ -42,7 +42,7 @@ public class SelectTable extends javax.swing.JFrame {
     private void renderTable() {
         panelContent.removeAll();
         for (Table table : tables) {
-            panelContent.add(new TableItem(table));
+            panelContent.add(new TablePane(table));
         }
         panelContent.updateUI();
     }

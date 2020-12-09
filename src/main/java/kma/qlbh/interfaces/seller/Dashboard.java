@@ -16,7 +16,7 @@ public class Dashboard extends javax.swing.JFrame {
         btnSelectTable.setIcon(new IconManager().getIcon("table_green_25px.png"));
         panelContent.removeAll();
         foods.forEach(food -> {
-            panelContent.add(new FoodItem(food));
+            panelContent.add(new FoodPane(food));
         });
         panelContent.updateUI();
     }

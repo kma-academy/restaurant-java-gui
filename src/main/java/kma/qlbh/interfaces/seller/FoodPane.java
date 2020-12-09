@@ -9,17 +9,17 @@ import kma.qlbh.utils.ImageManager;
  *
  * @author Tran Duc Cuong<clonebmn2itt@gmail.com>
  */
-public class FoodItem extends javax.swing.JPanel {
+public class FoodPane extends javax.swing.JPanel {
 
     DecimalFormat decimalFormat = new DecimalFormat("###,###");
 
-    public FoodItem() {
+    public FoodPane() {
         initComponents();
         Dimension size = new Dimension(200, 200);
         setPreferredSize(size);
     }
 
-    public FoodItem(Food food) {
+    public FoodPane(Food food) {
         initComponents();
         Dimension size = new Dimension(200, 200);
         setPreferredSize(size);
