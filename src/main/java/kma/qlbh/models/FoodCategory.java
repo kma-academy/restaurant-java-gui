@@ -38,7 +38,7 @@ public class FoodCategory {
 
     @Override
     public String toString() {
-        return "FoodCategory{" + "id=" + id + ", name=" + name + '}';
+        return name;
     }
 
     public static FoodCategory getFromResultSet(ResultSet rs) throws SQLException {

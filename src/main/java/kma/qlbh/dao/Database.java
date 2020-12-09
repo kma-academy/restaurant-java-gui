@@ -14,8 +14,8 @@ public class Database {
     private static Database instance = null;
 
     private static final String JDBC_STRING = "jdbc:mysql://localhost:3316";
-    private static final String DB_USER = "root";
-    private static final String DB_PASS = "army";
+    private static final String DB_USER = "kma";
+    private static final String DB_PASS = "kma";
     private static final String DB_NAME = "restaurant";
     private static final String URL = JDBC_STRING + "/" + DB_NAME + "?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
 
