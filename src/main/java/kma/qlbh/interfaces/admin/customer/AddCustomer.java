@@ -1,6 +1,7 @@
 package kma.qlbh.interfaces.admin.customer;
 
-import java.sql.Date;
+import java.util.Date;
+import java.sql.Timestamp;
 import javax.swing.JOptionPane;
 import kma.qlbh.dao.CustomerDao;
 import kma.qlbh.interfaces.admin.CustomerManager;
@@ -156,9 +157,8 @@ public class AddCustomer extends javax.swing.JFrame {
             c.setName(name);
             c.setPhoneNumber(phoneNumber);
             if (!cbUnknownBirthday.isSelected()) {
-                java.util.Date dateUtil = (java.util.Date) spnBirthday.getValue();
-                Date date = new Date(dateUtil.getTime());
-                c.setBirthday(date);
+                Date dateUtil = (Date) spnBirthday.getValue();
+                c.setBirthday(new Timestamp(dateUtil.getTime()));
             }
             customerDao.save(c);
             JOptionPane.showMessageDialog(null, "Thêm thành công");

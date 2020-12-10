@@ -1,6 +1,7 @@
 package kma.qlbh.interfaces.admin.customer;
 
-import java.sql.Date;
+import java.sql.Timestamp;
+import java.util.Date;
 import javax.swing.JOptionPane;
 import kma.qlbh.dao.CustomerDao;
 import kma.qlbh.interfaces.admin.CustomerManager;
@@ -33,7 +34,7 @@ public class EditCustomer extends javax.swing.JFrame {
             txtPhoneNumber.setText(c.getPhoneNumber());
             if (c.getBirthday() != null) {
                 cbUnknownBirthday.setSelected(false);
-                spnBirthday.setValue(new java.util.Date(c.getBirthday().getTime()));
+                spnBirthday.setValue(new Date(c.getBirthday().getTime()));
             } else {
                 cbUnknownBirthday.setSelected(true);
             }
@@ -171,9 +172,8 @@ public class EditCustomer extends javax.swing.JFrame {
             c.setName(name);
             c.setPhoneNumber(phoneNumber);
             if (!cbUnknownBirthday.isSelected()) {
-                java.util.Date dateUtil = (java.util.Date) spnBirthday.getValue();
-                Date date = new Date(dateUtil.getTime());
-                c.setBirthday(date);
+                Date dateUtil = (Date) spnBirthday.getValue();
+                c.setBirthday(new Timestamp(dateUtil.getTime()));
             }
             customerDao.update(c);
             customerManager.renderTable();

@@ -52,7 +52,7 @@ public class CustomerDao implements Dao<Customer> {
         stmt.setNString(1, t.getPhoneNumber());
         stmt.setNString(2, t.getName());
         stmt.setNString(3, t.getAddress());
-        stmt.setDate(4, t.getBirthday());
+        stmt.setTimestamp(4, t.getBirthday());
         int row = stmt.executeUpdate();
     }
 
@@ -67,7 +67,7 @@ public class CustomerDao implements Dao<Customer> {
         stmt.setNString(1, t.getPhoneNumber());
         stmt.setNString(2, t.getName());
         stmt.setNString(3, t.getAddress());
-        stmt.setDate(4, t.getBirthday());
+        stmt.setTimestamp(4, t.getBirthday());
         stmt.setInt(5, t.getId());
         int row = stmt.executeUpdate();
 

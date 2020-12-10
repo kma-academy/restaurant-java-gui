@@ -1,8 +1,8 @@
 package kma.qlbh.models;
 
-import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 
 /**
  * @createAt Nov 24, 2020
@@ -12,7 +12,7 @@ public class Customer {
 
     protected int id;
     protected String phoneNumber, name, address;
-    protected Date birthday;
+    protected Timestamp birthday;
 
     public Customer() {
         birthday = null;
@@ -50,11 +50,11 @@ public class Customer {
         this.address = address;
     }
 
-    public Date getBirthday() {
+    public Timestamp getBirthday() {
         return birthday;
     }
 
-    public void setBirthday(Date birthday) {
+    public void setBirthday(Timestamp birthday) {
         this.birthday = birthday;
     }
 
@@ -69,7 +69,7 @@ public class Customer {
         c.setName(rs.getNString("name"));
         c.setAddress(rs.getNString("address"));
         c.setPhoneNumber(rs.getString("phoneNumber"));
-        c.setBirthday(rs.getDate("birthday"));
+        c.setBirthday(rs.getTimestamp("birthday"));
         return c;
     }
 

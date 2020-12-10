@@ -3,7 +3,7 @@ CREATE TABLE IF NOT EXISTS `Customer` (
     `phoneNumber` varchar(20) NOT NULL,
     `name` varchar(50) NULL,
     `address` varchar(250) NULL,
-    `birthday` datetime NULL,
+    `birthday` TIMESTAMP NULL,
     PRIMARY KEY (`id`)
 );
 CREATE TABLE IF NOT EXISTS `Table` (
@@ -18,20 +18,20 @@ CREATE TABLE IF NOT EXISTS `Employee` (
     `password` varchar(50) NOT NULL,
     `name` varchar(50) NOT NULL,
     `phoneNumber` varchar(20) NULL,
-    `startDate` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    `startDate` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     `permissionName` varchar(50) NOT NULL,
     `permissionId` varchar(50) NOT NULL,
     PRIMARY KEY (`id`)
 );
 CREATE TABLE IF NOT EXISTS `Food_Category` (
     `id` int NOT NULL AUTO_INCREMENT,
-    `name` varchar(50) NOT NULL,
+    `name` varchar(50) UNIQUE NOT NULL,
     `slug` varchar(50) NOT NULL,
     PRIMARY KEY (`id`)
 );
 CREATE TABLE IF NOT EXISTS `Food_Item` (
     `id` int NOT NULL AUTO_INCREMENT,
-    `name` varchar(50) NOT NULL,
+    `name` varchar(50) UNIQUE NOT NULL,
     `description` varchar(500) NULL,
     `urlImage` varchar(50) NULL,
     `unitName` varchar(20) NOT NULL,
@@ -46,8 +46,8 @@ CREATE TABLE IF NOT EXISTS `Order` (
     `idTable` int NULL,
     `type` varchar(45) NOT NULL DEFAULT 'local' COMMENT 'local - tại quán\nonline - đặt online',
     `status` varchar(45) NOT NULL DEFAULT 'unpaid' COMMENT 'unpaid - chưa thanh toán\npaid - đã thanh toán',
-    `orderDate` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    `payDate` datetime NULL,
+    `orderDate` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    `payDate` TIMESTAMP NULL,
     `paidAmount` bigint NULL DEFAULT 0,
     `totalAmount` bigint NOT NULL DEFAULT 0,
     PRIMARY KEY (`id`),
@@ -61,8 +61,8 @@ CREATE TABLE IF NOT EXISTS `Shipment` (
     `shipperPhoneNumber` varchar(20) NOT NULL,
     `status` varchar(45) NOT NULL DEFAULT 'topay' COMMENT 'topay - chờ xác nhận\ntoship - chờ lấy hàng\ntoreceive - đang giao\ncompleted - hoàn thành\ncancelled - đã hủy',
     `notice` varchar(45) NULL,
-    `startDate` datetime NULL DEFAULT CURRENT_TIMESTAMP,
-    `endDate` datetime NULL,
+    `startDate` TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP,
+    `endDate` TIMESTAMP NULL,
     PRIMARY KEY (`idOrder`),
     CONSTRAINT `fk_ship_customer` FOREIGN KEY (`idCustomer`) REFERENCES `Customer` (`id`),
     CONSTRAINT `fk_order_ship` FOREIGN KEY (`idOrder`) REFERENCES `Order` (`id`)

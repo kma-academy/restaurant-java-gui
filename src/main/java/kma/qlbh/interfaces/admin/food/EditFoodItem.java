@@ -2,7 +2,6 @@ package kma.qlbh.interfaces.admin.food;
 
 import java.awt.image.BufferedImage;
 import java.io.File;
-import java.sql.SQLException;
 import javax.imageio.ImageIO;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JFileChooser;
@@ -264,7 +263,6 @@ public class EditFoodItem extends javax.swing.JFrame {
 
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
         try {
-            FoodItem foodItem = new FoodItem();
             if (txtName.getText().isEmpty() || txtUnitName.getText().isEmpty() || txtUnitPrice.getText().isEmpty() || cboCategory.getSelectedItem() == null) {
                 throw new Exception("Vui lòng điền đầy đủ thông tin");
             }
@@ -276,10 +274,10 @@ public class EditFoodItem extends javax.swing.JFrame {
             foodItem.setUrlImage(txtUrlImage.getText());
             foodItem.setDescription(txtDescription.getText());
             foodItem.setIdCategory(selectCategory.getId());
-            foodItemDao.save(foodItem);
+            foodItemDao.update(foodItem);
             foodItemManager.renderTable();
             this.dispose();
-            JOptionPane.showMessageDialog(null, "Thêm món thành công!");
+            JOptionPane.showMessageDialog(null, "Sửa món thành công!");
         } catch (Exception e) {
             this.dispose();
             ErrorPopup.show(e);
@@ -318,7 +316,6 @@ public class EditFoodItem extends javax.swing.JFrame {
 
         }
     }//GEN-LAST:event_btnChooseImageActionPerformed
-
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAdd;
