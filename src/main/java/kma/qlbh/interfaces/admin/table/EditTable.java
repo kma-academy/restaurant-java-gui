@@ -4,6 +4,7 @@ import javax.swing.JOptionPane;
 import kma.qlbh.dao.TableDao;
 import kma.qlbh.interfaces.admin.TableManager;
 import kma.qlbh.models.Table;
+import kma.qlbh.utils.ErrorPopup;
 
 /**
  * @createAt Nov 28, 2020
@@ -31,7 +32,7 @@ public class EditTable extends javax.swing.JFrame {
 
         } catch (Exception e) {
             this.dispose();
-            JOptionPane.showMessageDialog(null, e.getMessage(), "Lỗi", JOptionPane.ERROR_MESSAGE);
+            ErrorPopup.show(e);
         }
     }
 
@@ -128,7 +129,7 @@ public class EditTable extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Sửa thành công");
             tableManager.renderTable();
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, e.getMessage(), "Lỗi", JOptionPane.ERROR_MESSAGE);
+            ErrorPopup.show(e);
         }
     }//GEN-LAST:event_btnAddActionPerformed
 

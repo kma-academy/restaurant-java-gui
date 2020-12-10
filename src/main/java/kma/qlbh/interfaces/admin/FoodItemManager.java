@@ -7,7 +7,10 @@ import static javax.swing.JOptionPane.YES_OPTION;
 import javax.swing.table.DefaultTableModel;
 import kma.qlbh.dao.CustomerDao;
 import kma.qlbh.dao.FoodItemDao;
+import kma.qlbh.interfaces.admin.food.AddFoodItem;
+import kma.qlbh.interfaces.admin.food.EditFoodItem;
 import kma.qlbh.models.FoodItem;
+import kma.qlbh.utils.ErrorPopup;
 import kma.qlbh.utils.IconManager;
 
 /**
@@ -52,8 +55,7 @@ public class FoodItemManager extends javax.swing.JPanel {
                 });
             }
         } catch (Exception e) {
-            e.printStackTrace();
-            JOptionPane.showMessageDialog(null, "Có lỗi xảy ra!", "Lỗi", ERROR_MESSAGE);
+            ErrorPopup.show(e);
         }
     }
 
@@ -143,7 +145,8 @@ public class FoodItemManager extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
-
+        AddFoodItem afi = new AddFoodItem(this);
+        afi.setVisible(true);
     }//GEN-LAST:event_btnAddActionPerformed
 
     private void btnEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditActionPerformed
@@ -154,11 +157,11 @@ public class FoodItemManager extends javax.swing.JPanel {
                 throw new Exception("Chọn nhân viên cần edit");
             } else {
                 int id = (int) tblCustomer.getValueAt(selectedRow, 0);
-
+                EditFoodItem efi = new EditFoodItem(this, id);
+                efi.setVisible(true);
             }
         } catch (Exception e) {
-            e.printStackTrace();
-            JOptionPane.showMessageDialog(null, e.getMessage(), "Lỗi", ERROR_MESSAGE);
+            ErrorPopup.show(e);
         }
 
     }//GEN-LAST:event_btnEditActionPerformed
@@ -172,11 +175,10 @@ public class FoodItemManager extends javax.swing.JPanel {
             for (int i = 0; i < selectedRows.length; i++) {
                 int selectedRow = selectedRows[i];
                 int id = (int) tblCustomer.getValueAt(selectedRow, 0);
-                customerDao.deleteById(id);
+                foodItemDao.deleteById(id);
             }
         } catch (Exception e) {
-            e.printStackTrace();
-            JOptionPane.showMessageDialog(null, e.getMessage(), "Lỗi", ERROR_MESSAGE);
+            ErrorPopup.show(e);
         }
         renderTable();
     }//GEN-LAST:event_btnDeleteActionPerformed

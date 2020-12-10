@@ -9,6 +9,7 @@ import kma.qlbh.dao.FoodCategoryDao;
 import kma.qlbh.interfaces.admin.food.AddFoodCategory;
 import kma.qlbh.interfaces.admin.food.EditFoodCategory;
 import kma.qlbh.models.FoodCategory;
+import kma.qlbh.utils.ErrorPopup;
 import kma.qlbh.utils.IconManager;
 
 /**
@@ -22,7 +23,7 @@ public class FoodCategoryManager extends javax.swing.JPanel {
      */
     DefaultTableModel model = new DefaultTableModel();
     FoodCategoryDao foodCategoryDao = new FoodCategoryDao();
-    
+
     public FoodCategoryManager() {
         initComponents();
         IconManager im = new IconManager();
@@ -34,7 +35,7 @@ public class FoodCategoryManager extends javax.swing.JPanel {
         tblCustomer.setModel(model);
         renderTable();
     }
-    
+
     public void renderTable() {
         model.setNumRows(0);
         try {
@@ -45,8 +46,7 @@ public class FoodCategoryManager extends javax.swing.JPanel {
                 });
             }
         } catch (Exception e) {
-            e.printStackTrace();
-            JOptionPane.showMessageDialog(null, "Có lỗi xảy ra!", "Lỗi", ERROR_MESSAGE);
+            ErrorPopup.show(e);
         }
     }
 
@@ -139,9 +139,9 @@ public class FoodCategoryManager extends javax.swing.JPanel {
         AddFoodCategory afc = new AddFoodCategory(this);
         afc.setVisible(true);
     }//GEN-LAST:event_btnAddActionPerformed
-    
+
     private void btnEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditActionPerformed
-        
+
         int selectedRow = tblCustomer.getSelectedRow();
         try {
             if (selectedRow < 0) {
@@ -152,12 +152,11 @@ public class FoodCategoryManager extends javax.swing.JPanel {
                 efc.setVisible(true);
             }
         } catch (Exception e) {
-            e.printStackTrace();
-            JOptionPane.showMessageDialog(null, e.getMessage(), "Lỗi", ERROR_MESSAGE);
+            ErrorPopup.show(e);
         }
-        
+
     }//GEN-LAST:event_btnEditActionPerformed
-    
+
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
         int selectedRows[] = tblCustomer.getSelectedRows();
         try {
@@ -170,8 +169,7 @@ public class FoodCategoryManager extends javax.swing.JPanel {
                 foodCategoryDao.deleteById(id);
             }
         } catch (Exception e) {
-            e.printStackTrace();
-            JOptionPane.showMessageDialog(null, e.getMessage(), "Lỗi", ERROR_MESSAGE);
+            ErrorPopup.show(e);
         }
         renderTable();
     }//GEN-LAST:event_btnDeleteActionPerformed

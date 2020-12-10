@@ -5,6 +5,7 @@ import javax.swing.JOptionPane;
 import kma.qlbh.dao.CustomerDao;
 import kma.qlbh.interfaces.admin.CustomerManager;
 import kma.qlbh.models.Customer;
+import kma.qlbh.utils.ErrorPopup;
 
 /**
  * @createAt Nov 29, 2020
@@ -164,7 +165,7 @@ public class AddCustomer extends javax.swing.JFrame {
             customerManager.renderTable();
             this.dispose();
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, e.getMessage(), "Lỗi", JOptionPane.ERROR_MESSAGE);
+            ErrorPopup.show(e);
         }
 
     }//GEN-LAST:event_btnAddActionPerformed

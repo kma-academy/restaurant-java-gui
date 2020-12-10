@@ -34,9 +34,8 @@ public class ImageManager {
 
     public String saveImage(BufferedImage bi, String name) throws IOException {
         String pathImages = getClass().getResource(imagesPath).getPath();
-        String timeStamp = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss").format(new Timestamp(System.currentTimeMillis()));
-        String fileName = String.format("%s%s-%s.%s", pathImages, name, timeStamp, "png");
-        File out = new File(fileName);
+        String fileName = getUniqueNameFile(name);
+        File out = new File(pathImages + fileName);
         BufferedImage resizedImage = resizeImage(bi, 200);
         ImageIO.write(resizedImage, "png", out);
         return out.getName();
@@ -48,5 +47,11 @@ public class ImageManager {
         } catch (Exception e) {
             return source;
         }
+    }
+
+    public String getUniqueNameFile(String name) {
+        String timeStamp = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss").format(new Timestamp(System.currentTimeMillis()));
+        String fileName = String.format("%s-%s.%s", name.length() > 35 ? name.substring(0, 35) : name, timeStamp, "png");
+        return fileName;
     }
 }

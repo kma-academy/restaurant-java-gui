@@ -20,7 +20,7 @@ public class FoodItemDao implements Dao<FoodItem> {
     public ArrayList<FoodItem> getAll() throws SQLException {
         ArrayList<FoodItem> foodItems = new ArrayList<>();
         Statement statement = conn.createStatement();
-        String query = "SELECT * FROM `food_item` ORDER BY `food_item`.`idCategory` ASC";
+        String query = "SELECT * FROM `food_item` ORDER BY `food_item`.`idCategory` ASC , `food_item`.`name` ASC";
         ResultSet rs = statement.executeQuery(query);
         while (rs.next()) {
             FoodItem foodItem = FoodItem.getFromResultSet(rs);
@@ -48,7 +48,6 @@ public class FoodItemDao implements Dao<FoodItem> {
         }
         String query = "INSERT INTO `food_item` (`name`, `description`, `urlImage`, `unitName`, `unitPrice`, `idCategory`) VALUES (?, ?, ?, ?, ?, ?)";
         PreparedStatement stmt = conn.prepareStatement(query);
-//            stmt.setLong(0, t.getId());
         stmt.setNString(1, t.getName());
         stmt.setNString(2, t.getDescription());
         stmt.setNString(3, t.getUrlImage());
@@ -60,17 +59,34 @@ public class FoodItemDao implements Dao<FoodItem> {
 
     @Override
     public void update(FoodItem t) throws SQLException {
-        throw new UnsupportedOperationException("Not supported yet.");
+        if (t == null) {
+            throw new SQLException("Food item rỗng");
+        }
+        String query = "UPDATE `food_item` SET `name` = ?, `description` = ?, `urlImage` = ?, `unitName` = ?, `unitPrice` = ?, `idCategory` = ? WHERE `food_item`.`id` = ?";
+        PreparedStatement stmt = conn.prepareStatement(query);
+//            stmt.setLong(0, t.getId());
+        stmt.setNString(1, t.getName());
+        stmt.setNString(2, t.getDescription());
+        stmt.setNString(3, t.getUrlImage());
+        stmt.setNString(4, t.getUnitName());
+        stmt.setInt(5, t.getUnitPrice());
+        stmt.setInt(6, t.getIdCategory());
+        stmt.setInt(7, t.getId());
+        int row = stmt.executeUpdate();
     }
 
     @Override
     public void delete(FoodItem t) throws SQLException {
-        throw new UnsupportedOperationException("Not supported yet.");
+        PreparedStatement stmt = conn.prepareStatement("DELETE FROM `food_item` WHERE `food_item`.`id` = ?");
+        stmt.setInt(1, t.getId());
+        stmt.executeUpdate();
     }
 
     @Override
     public void deleteById(int id) throws SQLException {
-        throw new UnsupportedOperationException("Not supported yet.");
+        PreparedStatement stmt = conn.prepareStatement("DELETE FROM `food_item` WHERE `food_item`.`id` = ?");
+        stmt.setInt(1, id);
+        stmt.executeUpdate();
     }
 
 }

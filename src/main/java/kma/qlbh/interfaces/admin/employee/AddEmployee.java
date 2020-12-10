@@ -4,6 +4,7 @@ import javax.swing.JOptionPane;
 import kma.qlbh.dao.EmployeeDao;
 import kma.qlbh.interfaces.admin.EmployeeManager;
 import kma.qlbh.models.Employee;
+import kma.qlbh.utils.ErrorPopup;
 
 /**
  * @createAt Nov 16, 2020
@@ -173,7 +174,7 @@ public class AddEmployee extends javax.swing.JFrame {
             this.dispose();
 
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, e.getMessage(), "Lỗi", JOptionPane.ERROR_MESSAGE);
+            ErrorPopup.show(e);
         }
     }//GEN-LAST:event_btnAddActionPerformed
 

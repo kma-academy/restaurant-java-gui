@@ -1,9 +1,9 @@
 package kma.qlbh.interfaces;
 
 import javax.swing.JFrame;
-import javax.swing.JOptionPane;
 import kma.qlbh.dao.EmployeeDao;
 import kma.qlbh.models.Employee;
+import kma.qlbh.utils.ErrorPopup;
 
 /**
  * @createAt Nov 7, 2020
@@ -205,15 +205,13 @@ public class Login extends javax.swing.JFrame {
                     throw new Exception("Vui lòng liên hệ admin để biết thêm chi tiết");
             }
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, e.getMessage(), "Lỗi", JOptionPane.ERROR_MESSAGE);
-            e.printStackTrace();
+            ErrorPopup.show(e);
         }
 
     }//GEN-LAST:event_btnLoginActionPerformed
 
     private void lblForgotPasswordMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblForgotPasswordMouseClicked
-        // TODO add your handling code here:
-        JOptionPane.showMessageDialog(null, "Chưa hỗ trợ", null, JOptionPane.ERROR_MESSAGE);
+        ErrorPopup.show(new Exception("Chưa hỗ trợ"));
     }//GEN-LAST:event_lblForgotPasswordMouseClicked
 
     private void lblRegisterMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblRegisterMouseClicked

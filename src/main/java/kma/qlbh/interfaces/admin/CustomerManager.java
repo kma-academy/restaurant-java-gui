@@ -9,6 +9,7 @@ import kma.qlbh.dao.CustomerDao;
 import kma.qlbh.interfaces.admin.customer.AddCustomer;
 import kma.qlbh.interfaces.admin.customer.EditCustomer;
 import kma.qlbh.models.Customer;
+import kma.qlbh.utils.ErrorPopup;
 import kma.qlbh.utils.IconManager;
 
 /**
@@ -22,7 +23,7 @@ public class CustomerManager extends javax.swing.JPanel {
      */
     DefaultTableModel model = new DefaultTableModel();
     CustomerDao customerDao = new CustomerDao();
-    
+
     public CustomerManager() {
         initComponents();
         IconManager im = new IconManager();
@@ -37,7 +38,7 @@ public class CustomerManager extends javax.swing.JPanel {
         tblCustomer.setModel(model);
         renderTable();
     }
-    
+
     public void renderTable() {
         model.setNumRows(0);
         try {
@@ -48,8 +49,7 @@ public class CustomerManager extends javax.swing.JPanel {
                 });
             }
         } catch (Exception e) {
-            e.printStackTrace();
-            JOptionPane.showMessageDialog(null, "Có lỗi xảy ra!", "Lỗi", ERROR_MESSAGE);
+            ErrorPopup.show(e);
         }
     }
 
@@ -142,9 +142,9 @@ public class CustomerManager extends javax.swing.JPanel {
         AddCustomer pnl = new AddCustomer(this);
         pnl.setVisible(true);
     }//GEN-LAST:event_btnAddActionPerformed
-    
+
     private void btnEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditActionPerformed
-        
+
         int selectedRow = tblCustomer.getSelectedRow();
         try {
             if (selectedRow < 0) {
@@ -155,12 +155,11 @@ public class CustomerManager extends javax.swing.JPanel {
                 pnl.setVisible(true);
             }
         } catch (Exception e) {
-            e.printStackTrace();
-            JOptionPane.showMessageDialog(null, e.getMessage(), "Lỗi", ERROR_MESSAGE);
+            ErrorPopup.show(e);
         }
-        
+
     }//GEN-LAST:event_btnEditActionPerformed
-    
+
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
         int selectedRows[] = tblCustomer.getSelectedRows();
         try {
@@ -173,8 +172,7 @@ public class CustomerManager extends javax.swing.JPanel {
                 customerDao.deleteById(id);
             }
         } catch (Exception e) {
-            e.printStackTrace();
-            JOptionPane.showMessageDialog(null, e.getMessage(), "Lỗi", ERROR_MESSAGE);
+            ErrorPopup.show(e);
         }
         renderTable();
     }//GEN-LAST:event_btnDeleteActionPerformed

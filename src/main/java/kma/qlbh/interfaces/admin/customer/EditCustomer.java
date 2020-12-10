@@ -5,6 +5,7 @@ import javax.swing.JOptionPane;
 import kma.qlbh.dao.CustomerDao;
 import kma.qlbh.interfaces.admin.CustomerManager;
 import kma.qlbh.models.Customer;
+import kma.qlbh.utils.ErrorPopup;
 
 /**
  * @createAt Nov 29, 2020
@@ -38,7 +39,7 @@ public class EditCustomer extends javax.swing.JFrame {
             }
         } catch (Exception e) {
             this.dispose();
-            JOptionPane.showMessageDialog(null, e.getMessage(), "Lỗi", JOptionPane.ERROR_MESSAGE);
+            ErrorPopup.show(e);
         }
     }
 
@@ -179,7 +180,7 @@ public class EditCustomer extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Cập nhật thành công");
             this.dispose();
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, e.getMessage(), "Lỗi", JOptionPane.ERROR_MESSAGE);
+            ErrorPopup.show(e);
         }
 
     }//GEN-LAST:event_btnSaveActionPerformed

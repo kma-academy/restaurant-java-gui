@@ -4,6 +4,7 @@ import javax.swing.JOptionPane;
 import kma.qlbh.dao.FoodCategoryDao;
 import kma.qlbh.interfaces.admin.FoodCategoryManager;
 import kma.qlbh.models.FoodCategory;
+import kma.qlbh.utils.ErrorPopup;
 
 /**
  * @createAt Nov 28, 2020
@@ -31,7 +32,7 @@ public class EditFoodCategory extends javax.swing.JFrame {
 
         } catch (Exception e) {
             this.dispose();
-            JOptionPane.showMessageDialog(null, e.getMessage(), "Lỗi", JOptionPane.ERROR_MESSAGE);
+            ErrorPopup.show(e);
         }
     }
 
@@ -128,7 +129,7 @@ public class EditFoodCategory extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Sửa thành công");
             foodCategoryManager.renderTable();
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, e.getMessage(), "Lỗi", JOptionPane.ERROR_MESSAGE);
+            ErrorPopup.show(e);
         }
     }//GEN-LAST:event_btnSaveActionPerformed
 

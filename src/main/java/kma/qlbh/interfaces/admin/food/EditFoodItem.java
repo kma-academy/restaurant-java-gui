@@ -22,25 +22,36 @@ import kma.qlbh.utils.StringToSlug;
  * @createAt Dec 9, 2020
  * @author Tran Duc Cuong<clonebmn2itt@gmail.com>
  */
-public class AddFoodItem extends javax.swing.JFrame {
+public class EditFoodItem extends javax.swing.JFrame {
 
-    FoodItemManager fim;
-    FoodCategoryDao fcd = new FoodCategoryDao();
-    FoodItemDao fid = new FoodItemDao();
+    FoodItemManager foodItemManager;
+    FoodItem foodItem;
+    FoodCategoryDao foodCategoryDao = new FoodCategoryDao();
+    FoodItemDao foodItemDao = new FoodItemDao();
     DefaultComboBoxModel<FoodCategory> comboBoxModel = new DefaultComboBoxModel<>();
     ImageManager im = new ImageManager();
     JFileChooser filechooser;
 
-    public AddFoodItem(FoodItemManager fim) {
+    public EditFoodItem(FoodItemManager fim, int id) {
         initComponents();
         setLocationRelativeTo(null);
-        this.fim = fim;
+        this.foodItemManager = fim;
         cboCategory.setModel(comboBoxModel);
         try {
-            for (FoodCategory foodCategory : fcd.getAll()) {
+            foodItem = foodItemDao.get(id);
+            if (foodItem == null) {
+                throw new Exception("Món không tồn tại");
+            }
+            for (FoodCategory foodCategory : foodCategoryDao.getAll()) {
                 comboBoxModel.addElement(foodCategory);
             }
-        } catch (SQLException ex) {
+            txtName.setText(foodItem.getName());
+            txtDescription.setText(foodItem.getDescription());
+            txtUrlImage.setText(foodItem.getUrlImage());
+            txtUnitName.setText(foodItem.getUnitName());
+            txtUnitPrice.setText(foodItem.getUnitPrice() + "");
+            cboCategory.setSelectedItem(foodCategoryDao.get(foodItem.getIdCategory()));
+        } catch (Exception ex) {
             this.dispose();
             ErrorPopup.show(ex);
         }
@@ -265,8 +276,8 @@ public class AddFoodItem extends javax.swing.JFrame {
             foodItem.setUrlImage(txtUrlImage.getText());
             foodItem.setDescription(txtDescription.getText());
             foodItem.setIdCategory(selectCategory.getId());
-            fid.save(foodItem);
-            fim.renderTable();
+            foodItemDao.save(foodItem);
+            foodItemManager.renderTable();
             this.dispose();
             JOptionPane.showMessageDialog(null, "Thêm món thành công!");
         } catch (Exception e) {

@@ -4,6 +4,7 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import kma.qlbh.dao.EmployeeDao;
 import kma.qlbh.models.Employee;
+import kma.qlbh.utils.ErrorPopup;
 
 /**
  * @createAt Nov 7, 2020
@@ -214,7 +215,7 @@ public class Register extends javax.swing.JFrame {
             this.dispose();
 
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, e.getMessage(), "Lỗi", JOptionPane.ERROR_MESSAGE);
+            ErrorPopup.show(e);
         }
 
     }//GEN-LAST:event_btnRegisterActionPerformed

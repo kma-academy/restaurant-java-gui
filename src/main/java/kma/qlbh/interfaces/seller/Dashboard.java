@@ -3,7 +3,6 @@ package kma.qlbh.interfaces.seller;
 import java.util.ArrayList;
 import javax.swing.JFrame;
 import kma.qlbh.models.Food;
-import kma.qlbh.utils.IconManager;
 
 public class Dashboard extends javax.swing.JFrame {
 
@@ -13,7 +12,6 @@ public class Dashboard extends javax.swing.JFrame {
         initComponents();
         setExtendedState(JFrame.MAXIMIZED_BOTH);
         initItems();
-        btnSelectTable.setIcon(new IconManager().getIcon("table_green_25px.png"));
         panelContent.removeAll();
         foods.forEach(food -> {
             panelContent.add(new FoodPane(food));

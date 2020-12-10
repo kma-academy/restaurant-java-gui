@@ -4,6 +4,7 @@ import javax.swing.JOptionPane;
 import kma.qlbh.dao.TableDao;
 import kma.qlbh.interfaces.admin.TableManager;
 import kma.qlbh.models.Table;
+import kma.qlbh.utils.ErrorPopup;
 import kma.qlbh.utils.TableStatus;
 
 /**
@@ -120,7 +121,7 @@ public class AddTable extends javax.swing.JFrame {
             tableManager.renderTable();
             this.dispose();
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, e.getMessage(), "Lỗi", JOptionPane.ERROR_MESSAGE);
+            ErrorPopup.show(e);
         }
     }//GEN-LAST:event_btnAddActionPerformed
 

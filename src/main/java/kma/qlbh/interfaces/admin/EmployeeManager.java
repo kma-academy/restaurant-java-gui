@@ -9,6 +9,7 @@ import kma.qlbh.dao.EmployeeDao;
 import kma.qlbh.interfaces.admin.employee.AddEmployee;
 import kma.qlbh.interfaces.admin.employee.EditEmployee;
 import kma.qlbh.models.Employee;
+import kma.qlbh.utils.ErrorPopup;
 import kma.qlbh.utils.IconManager;
 
 /**
@@ -55,8 +56,7 @@ public class EmployeeManager extends javax.swing.JPanel {
                 });
             }
         } catch (Exception e) {
-            e.printStackTrace();
-            JOptionPane.showMessageDialog(null, "Có lỗi xảy ra!", "Lỗi", ERROR_MESSAGE);
+            ErrorPopup.show(e);
         }
     }
 
@@ -162,8 +162,7 @@ public class EmployeeManager extends javax.swing.JPanel {
                 pnl.setVisible(true);
             }
         } catch (Exception e) {
-
-            JOptionPane.showMessageDialog(null, e.getMessage(), "Lỗi", ERROR_MESSAGE);
+            ErrorPopup.show(e);
         }
 
     }//GEN-LAST:event_btnEditActionPerformed
@@ -180,8 +179,7 @@ public class EmployeeManager extends javax.swing.JPanel {
                 employeeDao.deleteById(id);
             }
         } catch (Exception e) {
-            e.printStackTrace();
-            JOptionPane.showMessageDialog(null, e.getMessage(), "Lỗi", ERROR_MESSAGE);
+            ErrorPopup.show(e);
         }
         renderTable();
     }//GEN-LAST:event_btnDeleteActionPerformed

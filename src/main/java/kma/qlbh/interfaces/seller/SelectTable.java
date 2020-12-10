@@ -2,9 +2,9 @@ package kma.qlbh.interfaces.seller;
 
 import java.awt.Dimension;
 import java.util.ArrayList;
-import javax.swing.JOptionPane;
 import kma.qlbh.dao.TableDao;
 import kma.qlbh.models.Table;
+import kma.qlbh.utils.ErrorPopup;
 
 /**
  * @createAt Dec 3, 2020
@@ -31,7 +31,7 @@ public class SelectTable extends javax.swing.JFrame {
             renderTable();
         } catch (Exception ex) {
             this.dispose();
-            JOptionPane.showMessageDialog(null, ex.getMessage(), "Lỗi", JOptionPane.ERROR_MESSAGE);
+            ErrorPopup.show(ex);
         }
     }
 

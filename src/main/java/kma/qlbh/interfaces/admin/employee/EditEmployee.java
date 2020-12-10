@@ -4,6 +4,7 @@ import javax.swing.JOptionPane;
 import kma.qlbh.dao.EmployeeDao;
 import kma.qlbh.interfaces.admin.EmployeeManager;
 import kma.qlbh.models.Employee;
+import kma.qlbh.utils.ErrorPopup;
 
 /**
  * @createAt Nov 16, 2020
@@ -34,7 +35,7 @@ public class EditEmployee extends javax.swing.JFrame {
             cboPermission.setSelectedIndex(employee.getPermissionId() - 1);
         } catch (Exception e) {
             this.dispose();
-            JOptionPane.showMessageDialog(null, e.getMessage(), "Lỗi", JOptionPane.ERROR_MESSAGE);
+            ErrorPopup.show(e);
         }
 
     }
@@ -191,8 +192,7 @@ public class EditEmployee extends javax.swing.JFrame {
             this.dispose();
 
         } catch (Exception e) {
-            e.printStackTrace();
-            JOptionPane.showMessageDialog(null, e.getMessage(), "Lỗi", JOptionPane.ERROR_MESSAGE);
+            ErrorPopup.show(e);
         }
     }//GEN-LAST:event_btnSaveActionPerformed
 

@@ -4,6 +4,7 @@ import javax.swing.JOptionPane;
 import kma.qlbh.dao.FoodCategoryDao;
 import kma.qlbh.interfaces.admin.FoodCategoryManager;
 import kma.qlbh.models.FoodCategory;
+import kma.qlbh.utils.ErrorPopup;
 
 /**
  * @createAt Nov 28, 2020
@@ -118,7 +119,7 @@ public class AddFoodCategory extends javax.swing.JFrame {
             foodCategoryManager.renderTable();
             this.dispose();
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, e.getMessage(), "Lỗi", JOptionPane.ERROR_MESSAGE);
+            ErrorPopup.show(e);
         }
     }//GEN-LAST:event_btnAddActionPerformed
 
