@@ -3,7 +3,9 @@ package kma.qlbh.dao;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
+import kma.qlbh.utils.LoadConfig;
 
 /**
  * @createAt Nov 11, 2020
@@ -11,26 +13,31 @@ import java.sql.Statement;
  */
 public class Database {
 
+    private static final LoadConfig dbConfig = LoadConfig.getIntanse();
     private static Database instance = null;
-
-    private static final String JDBC_STRING = "jdbc:mysql://localhost:3316";
-    private static final String DB_USER = "kma";
-    private static final String DB_PASS = "kma";
-    private static final String DB_NAME = "restaurant";
+    private static final String JDBC_STRING = dbConfig.getProperties("url");
+    private static final String DB_USER = dbConfig.getProperties("username");
+    private static final String DB_PASS = dbConfig.getProperties("password");
+    private static final String DB_NAME = dbConfig.getProperties("database");
     private static final String URL = JDBC_STRING + "/" + DB_NAME + "?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
 
     private Connection conn = null;
 
     private Database() {
         try {
-            Class.forName("com.mysql.cj.jdbc.Driver");
+            Class.forName(dbConfig.getProperties("driver_class"));
             this.conn = DriverManager.getConnection(URL, DB_USER, DB_PASS);
-            System.out.println("Connect database success!");
-        } catch (Exception e) {
-            System.out.println("Connect database error:");
+            System.out.println("Kết nối cơ sở dữ liệu thành công!");
+        } catch (ClassNotFoundException e) {
+            System.out.println("Chưa cài driver mysql!");
+            System.out.println(e.toString());
+            System.exit(0);
+        } catch (SQLException e) {
+            System.out.println("Kết nối cơ sở dữ liệu thất bại:");
             System.out.println(e.toString());
             System.exit(0);
         }
+
     }
 
     public Connection getConnection() {
@@ -54,7 +61,7 @@ public class Database {
             while (rs.next()) {
                 System.out.println(rs.getDate("CURRENT_TIMESTAMP").toString());
             }
-        } catch (Exception ex) {
+        } catch (SQLException ex) {
             ex.printStackTrace();
         }
 
