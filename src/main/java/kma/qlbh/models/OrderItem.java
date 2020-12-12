@@ -14,17 +14,13 @@ import java.sql.SQLException;
  */
 public class OrderItem {
 
-    private int id, idOrder, idFoodItem, idTopping, quantity, unitPrice;
+    private int idOrder, idFoodItem, idTopping, quantity, unitPrice;
+    private String note;
 
     public OrderItem() {
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
+        quantity = 1;
+        idTopping = 0;
+        note = "";
     }
 
     public int getIdOrder() {
@@ -67,20 +63,28 @@ public class OrderItem {
         this.unitPrice = unitPrice;
     }
 
+    public String getNote() {
+        return note;
+    }
+
+    public void setNote(String note) {
+        this.note = note;
+    }
+
     public static OrderItem getFromResultSet(ResultSet rs) throws SQLException {
         OrderItem oi = new OrderItem();
-        oi.setId(rs.getInt("id"));
         oi.setIdFoodItem(rs.getInt("idFoodItem"));
-        oi.setIdOrder(rs.getInt("idFoodItem"));
+        oi.setIdOrder(rs.getInt("idOrder"));
         oi.setIdTopping(rs.getInt("idTopping"));
         oi.setQuantity(rs.getInt("quantity"));
         oi.setUnitPrice(rs.getInt("unitPrice"));
+        oi.setNote(rs.getNString("note"));
         return oi;
     }
 
     @Override
     public String toString() {
-        return "OrderItem{" + "id=" + id + ", idOrder=" + idOrder + ", idFoodItem=" + idFoodItem + ", idTopping=" + idTopping + ", quantity=" + quantity + ", unitPrice=" + unitPrice + '}';
+        return "OrderItem{" + "idOrder=" + idOrder + ", idFoodItem=" + idFoodItem + ", idTopping=" + idTopping + ", quantity=" + quantity + ", unitPrice=" + unitPrice + ", note=" + note + '}';
     }
 
 }

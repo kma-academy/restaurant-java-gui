@@ -22,7 +22,7 @@ import kma.qlbh.utils.StringToSlug;
  * @author Tran Duc Cuong<clonebmn2itt@gmail.com>
  */
 public class EditFoodItem extends javax.swing.JFrame {
-
+    
     FoodItemManager foodItemManager;
     FoodItem foodItem;
     FoodCategoryDao foodCategoryDao = new FoodCategoryDao();
@@ -30,10 +30,11 @@ public class EditFoodItem extends javax.swing.JFrame {
     DefaultComboBoxModel<FoodCategory> comboBoxModel = new DefaultComboBoxModel<>();
     ImageManager im = new ImageManager();
     JFileChooser filechooser;
-
+    
     public EditFoodItem(FoodItemManager fim, int id) {
         initComponents();
         setLocationRelativeTo(null);
+        lbTitle.setText("Sửa món ăn - " + id);
         this.foodItemManager = fim;
         cboCategory.setModel(comboBoxModel);
         try {
@@ -66,7 +67,7 @@ public class EditFoodItem extends javax.swing.JFrame {
     private void initComponents() {
         java.awt.GridBagConstraints gridBagConstraints;
 
-        jLabel1 = new javax.swing.JLabel();
+        lbTitle = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
@@ -81,14 +82,14 @@ public class EditFoodItem extends javax.swing.JFrame {
         txtUnitName = new javax.swing.JTextField();
         txtUnitPrice = new javax.swing.JTextField();
         cboCategory = new javax.swing.JComboBox<>();
-        btnAdd = new javax.swing.JButton();
+        btnSave = new javax.swing.JButton();
         btnCancel = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setUndecorated(true);
 
-        jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jLabel1.setText("Thêm món ăn");
+        lbTitle.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        lbTitle.setText("Sửa món ăn - 01");
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Nhập thông tin"));
         jPanel1.setLayout(new java.awt.GridBagLayout());
@@ -207,10 +208,10 @@ public class EditFoodItem extends javax.swing.JFrame {
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel1.add(cboCategory, gridBagConstraints);
 
-        btnAdd.setText("Thêm");
-        btnAdd.addActionListener(new java.awt.event.ActionListener() {
+        btnSave.setText("Cập Nhật");
+        btnSave.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnAddActionPerformed(evt);
+                btnSaveActionPerformed(evt);
             }
         });
 
@@ -231,25 +232,25 @@ public class EditFoodItem extends javax.swing.JFrame {
                 .addContainerGap())
             .addGroup(layout.createSequentialGroup()
                 .addGap(74, 74, 74)
-                .addComponent(btnAdd)
+                .addComponent(btnSave)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(btnCancel)
                 .addGap(70, 70, 70))
             .addGroup(layout.createSequentialGroup()
-                .addGap(202, 202, 202)
-                .addComponent(jLabel1)
+                .addGap(192, 192, 192)
+                .addComponent(lbTitle)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel1)
+                .addComponent(lbTitle)
                 .addGap(18, 18, 18)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 244, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 14, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnAdd)
+                    .addComponent(btnSave)
                     .addComponent(btnCancel))
                 .addGap(19, 19, 19))
         );
@@ -260,8 +261,8 @@ public class EditFoodItem extends javax.swing.JFrame {
     private void btnCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelActionPerformed
         this.dispose();
     }//GEN-LAST:event_btnCancelActionPerformed
-
-    private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
+    
+    private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
         try {
             if (txtName.getText().isEmpty() || txtUnitName.getText().isEmpty() || txtUnitPrice.getText().isEmpty() || cboCategory.getSelectedItem() == null) {
                 throw new Exception("Vui lòng điền đầy đủ thông tin");
@@ -282,8 +283,8 @@ public class EditFoodItem extends javax.swing.JFrame {
             this.dispose();
             ErrorPopup.show(e);
         }
-    }//GEN-LAST:event_btnAddActionPerformed
-
+    }//GEN-LAST:event_btnSaveActionPerformed
+    
     private void btnChooseImageActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnChooseImageActionPerformed
         if (filechooser == null) {
             filechooser = new JFileChooser();
@@ -295,7 +296,7 @@ public class EditFoodItem extends javax.swing.JFrame {
             FileFilter imageFilter = new FileNameExtensionFilter("Hình ảnh(jpg, png, gif,...)", ImageIO.getReaderFileSuffixes());
             filechooser.setFileFilter(imageFilter);
         }
-
+        
         int otp = filechooser.showOpenDialog(this);
         switch (otp) {
             case JFileChooser.APPROVE_OPTION:
@@ -313,16 +314,15 @@ public class EditFoodItem extends javax.swing.JFrame {
             case JFileChooser.CANCEL_OPTION:
                 txtUrlImage.setText("");
                 break;
-
+            
         }
     }//GEN-LAST:event_btnChooseImageActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnAdd;
     private javax.swing.JButton btnCancel;
     private javax.swing.JButton btnChooseImage;
+    private javax.swing.JButton btnSave;
     private javax.swing.JComboBox<FoodCategory> cboCategory;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -330,6 +330,7 @@ public class EditFoodItem extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JLabel lbTitle;
     private javax.swing.JTextField txtDescription;
     private javax.swing.JTextField txtName;
     private javax.swing.JTextField txtUnitName;

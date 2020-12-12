@@ -68,13 +68,13 @@ CREATE TABLE IF NOT EXISTS `Shipment` (
     CONSTRAINT `fk_order_ship` FOREIGN KEY (`idOrder`) REFERENCES `Order` (`id`)
 );
 CREATE TABLE IF NOT EXISTS `Order_Item` (
-    `id` int NOT NULL AUTO_INCREMENT,
     `idOrder` int NOT NULL,
     `idFoodItem` int NOT NULL,
-    `idTopping` int NULL,
+    `idTopping` int NOT NULL DEFAULT 0,
     `quantity` int NOT NULL DEFAULT 1,
-    `unitPrice` bigint NULL,
-    PRIMARY KEY (`id`),
+    `unitPrice` bigint NOT NULL DEFAULT 0,
+    `note` varchar(100) NULL,
+    PRIMARY KEY ( `idOrder`, `idFoodItem`, `idTopping`),
     CONSTRAINT `fk_order_main_item` FOREIGN KEY (`idFoodItem`) REFERENCES `Food_Item` (`id`),
     CONSTRAINT `fk_order_topping` FOREIGN KEY (`idTopping`) REFERENCES `Food_Item` (`id`),
     CONSTRAINT `fk_order_item` FOREIGN KEY (`idOrder`) REFERENCES `Order` (`id`)
