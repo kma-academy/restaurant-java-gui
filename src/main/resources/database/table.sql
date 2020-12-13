@@ -17,7 +17,7 @@ CREATE TABLE IF NOT EXISTS `Employee` (
     `username` varchar(50) UNIQUE NOT NULL,
     `password` varchar(50) NOT NULL,
     `name` varchar(50) NOT NULL,
-    `phoneNumber` varchar(20) NULL,
+    `phoneNumber` varchar(20) NOT NULL DEFAULT '',
     `startDate` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     `permissionName` varchar(50) NOT NULL,
     `permissionId` varchar(50) NOT NULL,
@@ -30,7 +30,7 @@ CREATE TABLE IF NOT EXISTS `Food_Category` (
     PRIMARY KEY (`id`)
 );
 CREATE TABLE IF NOT EXISTS `Food_Item` (
-    `id` int NOT NULL AUTO_INCREMENT,
+    `id` int NOT NULL AUTO_INCREMENT AUTO_INCREMENT=1,
     `name` varchar(50) UNIQUE NOT NULL,
     `description` varchar(500) NULL,
     `urlImage` varchar(50) NULL,
@@ -50,6 +50,8 @@ CREATE TABLE IF NOT EXISTS `Order` (
     `payDate` TIMESTAMP NULL,
     `paidAmount` bigint NULL DEFAULT 0,
     `totalAmount` bigint NOT NULL DEFAULT 0,
+    `discount` int NOT NULL DEFAULT 0,
+    CHECK(discount >= 0 AND discount <= 100)
     PRIMARY KEY (`id`),
     CONSTRAINT `fk_employee_order` FOREIGN KEY (`idEmployee`) REFERENCES `Employee` (`id`),
     CONSTRAINT `fk_order_table` FOREIGN KEY (`idTable`) REFERENCES `Table` (`id`)
@@ -70,9 +72,10 @@ CREATE TABLE IF NOT EXISTS `Shipment` (
 CREATE TABLE IF NOT EXISTS `Order_Item` (
     `idOrder` int NOT NULL,
     `idFoodItem` int NOT NULL,
-    `idTopping` int NOT NULL DEFAULT 0,
+    `idTopping` int NOT NULL DEFAULT 1,
     `quantity` int NOT NULL DEFAULT 1,
-    `unitPrice` bigint NOT NULL DEFAULT 0,
+    `foodPrice` bigint(20) NOT NULL DEFAULT 0,
+    `toppingPrice` bigint(20) NOT NULL DEFAULT 0,
     `note` varchar(100) NULL,
     PRIMARY KEY ( `idOrder`, `idFoodItem`, `idTopping`),
     CONSTRAINT `fk_order_main_item` FOREIGN KEY (`idFoodItem`) REFERENCES `Food_Item` (`id`),

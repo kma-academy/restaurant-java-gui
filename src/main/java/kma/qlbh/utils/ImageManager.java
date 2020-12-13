@@ -1,5 +1,6 @@
 package kma.qlbh.utils;
 
+import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -23,13 +24,19 @@ public class ImageManager {
     public ImageManager() {
     }
 
-    public Icon getImage(String name) {
+    public ImageIcon getImage(String name) {
         try {
             URL pathImage = getClass().getResource(imagesPath + name);
             return new ImageIcon(pathImage);
         } catch (Exception e) {
             return null;
         }
+    }
+
+    public Icon resizeIcon(ImageIcon source, int width, int height) {
+        Image img = source.getImage();
+        Image newImg = img.getScaledInstance(width, height, Image.SCALE_SMOOTH);
+        return new ImageIcon(newImg);
     }
 
     public String saveImage(BufferedImage bi, String name) throws IOException {

@@ -15,6 +15,7 @@ import kma.qlbh.models.OrderItem;
 public class OrderItemDao implements Dao<OrderItem> {
 
     Connection conn = Database.getInstance().getConnection();
+    FoodItemDao foodItemDao = new FoodItemDao();
 
     @Override
     public ArrayList<OrderItem> getAll() throws SQLException {
@@ -24,6 +25,8 @@ public class OrderItemDao implements Dao<OrderItem> {
         ResultSet rs = statement.executeQuery(query);
         while (rs.next()) {
             OrderItem orderItem = OrderItem.getFromResultSet(rs);
+            orderItem.setFoodItem(foodItemDao.get(orderItem.getIdFoodItem()));
+            orderItem.setToppingItem(foodItemDao.get(orderItem.getIdTopping()));
             orderItems.add(orderItem);
         }
         return orderItems;
@@ -39,14 +42,17 @@ public class OrderItemDao implements Dao<OrderItem> {
         if (t == null) {
             throw new SQLException("Order Item rỗng");
         }
-        String query = "INSERT INTO `order_item` (`idOrder`, `idFoodItem`, `idTopping`, `quantity`, `unitPrice`, `note`) VALUES (?, ?, ?, ?, ?, ?)";
+        String query = "INSERT INTO `order_item` (`idOrder`, `idFoodItem`, `idTopping`, `quantity`, `foodPrice`, `toppingPrice`, `note`) VALUES (?, ?, ?, ?, ?, ?, ?) ON DUPLICATE KEY UPDATE  `quantity` = ?";
         PreparedStatement stmt = conn.prepareStatement(query);
         stmt.setInt(1, t.getIdOrder());
         stmt.setInt(2, t.getIdFoodItem());
         stmt.setInt(3, t.getIdTopping());
         stmt.setInt(4, t.getQuantity());
-        stmt.setInt(5, t.getUnitPrice());
-        stmt.setNString(6, t.getNote());
+        stmt.setInt(5, t.getFoodPrice());
+        stmt.setInt(6, t.getToppingPrice());
+        stmt.setNString(7, t.getNote());
+        stmt.setInt(8, t.getQuantity());
+        stmt.executeUpdate();
     }
 
     @Override
@@ -54,22 +60,27 @@ public class OrderItemDao implements Dao<OrderItem> {
         if (t == null) {
             throw new SQLException("Order Item rỗng");
         }
-        String query = "UPDATE `order_item` SET , `quantity` = ?, `unitPrice` = ?, `note` = ? WHERE `idOrder` = ? AND `idFoodItem` = ? AND `idTopping` = ?";
+        String query = "UPDATE `order_item` SET  `quantity` = ?, `foodPrice` = ?, `toppingPrice` = ?, `note` = ? WHERE `idOrder` = ? AND `idFoodItem` = ? AND `idTopping` = ?";
         PreparedStatement stmt = conn.prepareStatement(query);
         stmt.setInt(1, t.getQuantity());
-        stmt.setInt(2, t.getUnitPrice());
-        stmt.setNString(3, t.getNote());
-        stmt.setInt(4, t.getIdOrder());
-        stmt.setInt(5, t.getIdFoodItem());
-        stmt.setInt(6, t.getIdTopping());
+        stmt.setInt(2, t.getFoodPrice());
+        stmt.setInt(3, t.getToppingPrice());
+        stmt.setNString(4, t.getNote());
+        stmt.setInt(5, t.getIdOrder());
+        stmt.setInt(6, t.getIdFoodItem());
+        stmt.setInt(7, t.getIdTopping());
+        stmt.executeUpdate();
     }
 
     @Override
     public void delete(OrderItem t) throws SQLException {
-        PreparedStatement stmt = conn.prepareStatement("DELETE FROM `order` WHERE `idOrder` = ? AND `idFoodItem` = ? AND `idTopping` = ?");
-        stmt.setInt(4, t.getIdOrder());
-        stmt.setInt(5, t.getIdFoodItem());
-        stmt.setInt(6, t.getIdTopping());
+        if (t == null) {
+            throw new SQLException("Order Item rỗng");
+        }
+        PreparedStatement stmt = conn.prepareStatement("DELETE FROM `order_item` WHERE `idOrder` = ? AND `idFoodItem` = ? AND `idTopping` = ?");
+        stmt.setInt(1, t.getIdOrder());
+        stmt.setInt(2, t.getIdFoodItem());
+        stmt.setInt(3, t.getIdTopping());
         stmt.executeUpdate();
     }
 
@@ -98,6 +109,8 @@ public class OrderItemDao implements Dao<OrderItem> {
         ResultSet rs = statement.executeQuery(query);
         while (rs.next()) {
             OrderItem orderItem = OrderItem.getFromResultSet(rs);
+            orderItem.setFoodItem(foodItemDao.get(orderItem.getIdFoodItem()));
+            orderItem.setToppingItem(foodItemDao.get(orderItem.getIdTopping()));
             orderItems.add(orderItem);
         }
         return orderItems;

@@ -67,6 +67,7 @@ public class Dashboard extends javax.swing.JFrame {
         menuQLDH.addSubMenu(new MenuItem("QLB", null, "Quản lý bàn"));
         menuQLDH.addSubMenu(new MenuItem("QLKH", null, "Quản lý khách hàng"));
         menuQLDH.addSubMenu(new MenuItem("QLDDH", null, "Quản lý đơn đặt hàng"));
+        menuQLDH.addSubMenu(new MenuItem("QLS", null, "Quản lý giao hàng"));
 
         addMenu(menuQLNV, menuQLHH, menuQLDH, menuTK);
     }
@@ -106,8 +107,8 @@ public class Dashboard extends javax.swing.JFrame {
             item.setBackground(new Color(85, 172, 238));
         }
         previousItem = item;
-        for (int i = 0; i < cards.length; i++) {
-            cards[i].setVisible(false);
+        for (JPanel card : cards) {
+            card.setVisible(false);
         }
         switch (item.getId()) {
             case "QLNV":
@@ -154,6 +155,8 @@ public class Dashboard extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Trang quản lý");
+        setAutoRequestFocus(false);
+        setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         setResizable(false);
 
         panelLeft.setPreferredSize(new java.awt.Dimension(200, 680));
@@ -209,7 +212,7 @@ public class Dashboard extends javax.swing.JFrame {
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1005, Short.MAX_VALUE)
+            .addGap(0, 1007, Short.MAX_VALUE)
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)

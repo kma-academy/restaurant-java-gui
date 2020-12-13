@@ -22,26 +22,27 @@ VALUES (NULL, 'Đồ Ăn', 'do-an'),
 
 
 
-INSERT INTO `food_item` (`id`, `name`, `description`, `urlImage`, `unitName`, `unitPrice`, `idCategory`) VALUES
-(0, 'No Topping', '', '', 'Phần', 0, 4),
-(1, 'Trà Sữa Trân Châu', NULL, NULL, 'Ly', 50000, 2),
-(2, 'Trà Sữa Sương Sáo', NULL, NULL, 'Ly', 45000, 2),
-(3, 'Trà Sữa Matcha(L)', '', '', 'Ly', 50000, 1),
-(4, 'Sữa Tươi Trân Châu Đường Đen', NULL, NULL, 'Ly', 45000, 2),
-(5, 'Trân Châu Tuyết Sợi', NULL, NULL, 'Phần', 10000, 4),
-(6, 'Trân Châu Đen', NULL, NULL, 'Phần', 10000, 4),
-(7, 'Trân Châu Trắng', NULL, NULL, 'Phần', 10000, 4),
-(8, 'Bánh Flan', '', '', 'Cái', 10000, 1),
-(9, 'Hướng dương', NULL, NULL, 'Túi', 10000, 1),
-(10, 'Cafe truyền thống', NULL, NULL, 'Cốc', 35000, 3),
-(11, 'Espresso', NULL, NULL, 'Cốc', 45000, 3),
-(12, 'Trà Sữa Matcha(XL)', NULL, NULL, 'Ly', 25000, 2),
-(13, 'Trà Sữa Ô Long', '', '', 'Ly', 20000, 2),
-(14, 'Trà Đào', '', 'tra-ao-2020-12-10-12-15-10.png', 'Ly', 40000, 2),
-(15, 'Trà Đào(L)', '', 'tra-ao-l-2020-12-10-12-16-17.png', 'Ly', 50000, 1);
-
 ALTER TABLE `food_item`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+
+INSERT INTO `food_item` (`id`, `name`, `description`, `urlImage`, `unitName`, `unitPrice`, `idCategory`) VALUES
+(1, 'No Topping', '', '', 'Phần', 0, 4),
+(2, 'Trân Châu Tuyết Sợi', NULL, NULL, 'Phần', 10000, 4),
+(3, 'Trân Châu Đen', NULL, NULL, 'Phần', 10000, 4),
+(4, 'Trân Châu Trắng', NULL, NULL, 'Phần', 10000, 4),
+(5, 'Trà Sữa Trân Châu', NULL, NULL, 'Ly', 50000, 2),
+(6, 'Trà Sữa Sương Sáo', NULL, NULL, 'Ly', 45000, 2),
+(7, 'Trà Sữa Matcha(L)', '', '', 'Ly', 50000, 1),
+(8, 'Sữa Tươi Trân Châu Đường Đen', NULL, NULL, 'Ly', 45000, 2),
+(9, 'Bánh Flan', '', '', 'Cái', 10000, 1),
+(10, 'Hướng dương', NULL, NULL, 'Túi', 10000, 1),
+(11, 'Cafe truyền thống', NULL, NULL, 'Cốc', 35000, 3),
+(12, 'Espresso', NULL, NULL, 'Cốc', 45000, 3),
+(13, 'Trà Sữa Matcha(XL)', NULL, NULL, 'Ly', 25000, 2),
+(14, 'Trà Sữa Ô Long', '', '', 'Ly', 20000, 2),
+(15, 'Trà Đào', '', 'tra-ao-2020-12-10-12-15-10.png', 'Ly', 40000, 2),
+(16, 'Trà Đào(L)', '', 'tra-ao-l-2020-12-10-12-16-17.png', 'Ly', 50000, 1);
+
 
 
 INSERT INTO `order` (`idEmployee`, `idTable`, `type`, `orderDate`, `status`, `payDate`, `paidAmount`, `totalAmount`) VALUES
@@ -49,10 +50,11 @@ INSERT INTO `order` (`idEmployee`, `idTable`, `type`, `orderDate`, `status`, `pa
 (1, 1, 'online', '2020-11-24 15:05:08', 'unpaid', '2020-11-24 00:00:00', 0, 0);
 
 
-INSERT INTO `order_item` (`id`, `idOrder`, `idFoodItem`, `idTopping`, `quantity`, `unitPrice`) VALUES
-(1, 1, 1, NULL, 1, 0),
-(2, 1, 8, NULL, 1, 0),
-(3, 1, 3, 6, 2, 0);
+INSERT INTO `order_item` (`idOrder`, `idFoodItem`, `idTopping`, `quantity`, `foodPrice`, `toppingPrice`, `note`) VALUES
+(1, 7, 1, 3, 0, 0, NULL),
+(1, 8, 1, 2, 0, 0, NULL),
+(1, 14, 2, 2, 0, 0, NULL),
+(2, 9, 1, 2, 0, 0, NULL);
 
 
 INSERT INTO `shipment` (`idOrder`, `idCustomer`, `shipperName`, `shipperPhoneNumber`, `status`, `notice`, `startDate`, `endDate`)

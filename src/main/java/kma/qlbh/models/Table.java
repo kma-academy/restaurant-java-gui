@@ -51,7 +51,7 @@ public class Table {
 
     @Override
     public String toString() {
-        return "|\t" + id + "\t|\t" + name + "\t|\t" + status.getName() + "\t|";
+        return name;
     }
 
 }

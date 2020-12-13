@@ -21,9 +21,12 @@ public class Order {
     private OrderType type;
     private OrderStatus status;
     private Timestamp orderDate, payDate;
-    private int paidAmount, totalAmount;
+    private int paidAmount, totalAmount, discount;
+    private Employee employee;
+    private Table table;
 
     public Order() {
+        status = OrderStatus.UNPAID;
     }
 
     public int getId() {
@@ -98,6 +101,36 @@ public class Order {
         this.totalAmount = totalAmount;
     }
 
+    public int getDiscount() {
+        return discount;
+    }
+
+    public void setDiscount(int discount) {
+        this.discount = discount;
+    }
+
+    public Employee getEmployee() {
+        return employee;
+    }
+
+    public void setEmployee(Employee employee) {
+        this.employee = employee;
+        this.idEmployee = employee.getId();
+    }
+
+    public Table getTable() {
+        return table;
+    }
+
+    public void setTable(Table table) {
+        this.table = table;
+        this.idTable = table.getId();
+    }
+
+    public int getFinalAmount() {
+        return totalAmount - (int) totalAmount * discount / 100;
+    }
+
     public static Order getFromResultSet(ResultSet rs) throws SQLException {
         Order o = new Order();
         o.setId(rs.getInt("id"));
@@ -109,6 +142,7 @@ public class Order {
         o.setPayDate(rs.getTimestamp("payDate"));
         o.setPaidAmount(rs.getInt("paidAmount"));
         o.setTotalAmount(rs.getInt("totalAmount"));
+        o.setDiscount(rs.getInt("discount"));
         return o;
     }
 

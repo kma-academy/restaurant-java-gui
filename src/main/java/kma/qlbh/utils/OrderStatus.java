@@ -6,7 +6,8 @@ package kma.qlbh.utils;
  */
 public enum OrderStatus {
     UNPAID("unpaid", "Chưa thanh toán"),
-    PAID("paid", "Đã thanh toán");
+    PAID("paid", "Đã thanh toán"),
+    CANCEL("cancel", "Bị hủy");
     private String id, name;
 
     OrderStatus(String id, String name) {
