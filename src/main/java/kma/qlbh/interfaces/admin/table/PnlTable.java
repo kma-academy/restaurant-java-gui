@@ -24,39 +24,42 @@ public class PnlTable extends javax.swing.JPanel {
 //    public PnlTable() {
 //        initComponents();
 //    }
-    public PnlTable(int chair,String id,String urlImage,String urlImageChange){
+
+    public PnlTable(int chair, String id, String urlImage, String urlImageChange) {
         initComponents();
-        labName.setText("Bàn số : "+id+" ("+chair+")");
-        this.id=id;
-        this.addMouseListener(new MouseAdapter(){
+        labName.setText("Bàn số : " + id + " (" + chair + ")");
+        this.id = id;
+        this.addMouseListener(new MouseAdapter() {
             @Override
-            public void mouseClicked(MouseEvent e){
-                if(check){
+            public void mouseClicked(MouseEvent e) {
+                if (check) {
                     ImageIcon icon = new ImageIcon(urlImage);
                     Image img = icon.getImage();
-                    Image newImg = img.getScaledInstance(80, 80,Image.SCALE_SMOOTH);
-                    icon= new ImageIcon(newImg);
+                    Image newImg = img.getScaledInstance(80, 80, Image.SCALE_SMOOTH);
+                    icon = new ImageIcon(newImg);
                     labIcon.setIcon(icon);
-                    check=!check;
-                }
-                else{
+                    check = !check;
+                } else {
                     ImageIcon icon = new ImageIcon(urlImageChange);
                     Image img = icon.getImage();
-                    Image newImg = img.getScaledInstance(80, 80,Image.SCALE_SMOOTH);
-                    icon= new ImageIcon(newImg);
+                    Image newImg = img.getScaledInstance(80, 80, Image.SCALE_SMOOTH);
+                    icon = new ImageIcon(newImg);
                     labIcon.setIcon(icon);
-                    check=!check;
+                    check = !check;
                 }
-                
+
             }
         });
     }
-    public String getId(){
+
+    public String getId() {
         return this.id;
     }
-    public boolean getCheck(){
+
+    public boolean getCheck() {
         return this.check;
     }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -91,7 +94,6 @@ public class PnlTable extends javax.swing.JPanel {
                 .addComponent(labName, javax.swing.GroupLayout.DEFAULT_SIZE, 29, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
-
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel labIcon;

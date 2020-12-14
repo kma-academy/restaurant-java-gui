@@ -10,6 +10,7 @@ public class Dashboard extends javax.swing.JFrame {
 
     ArrayList<FoodItem> foods = new ArrayList<>();
     FoodItemDao foodItemDao = new FoodItemDao();
+
     public Dashboard() {
         initComponents();
         setExtendedState(JFrame.MAXIMIZED_BOTH);
@@ -22,12 +23,12 @@ public class Dashboard extends javax.swing.JFrame {
     }
 
     private void initItems() {
-        try {             
-            foods = foodItemDao.getAll();        
+        try {
+            foods = foodItemDao.getAll();
         } catch (Exception e) {
             ErrorPopup.show(e);
         }
-      
+
     }
 
     /**

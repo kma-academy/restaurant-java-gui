@@ -245,7 +245,6 @@ public class AddOrder extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnAddActionPerformed
 
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAdd;
     private javax.swing.JButton btnCancel;
