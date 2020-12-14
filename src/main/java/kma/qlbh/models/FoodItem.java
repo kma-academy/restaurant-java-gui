@@ -2,6 +2,7 @@ package kma.qlbh.models;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.DecimalFormat;
 
 /**
  * @createAt Dec 8, 2020
@@ -12,6 +13,7 @@ public class FoodItem {
     protected int id;
     protected String name, description, urlImage, unitName;
     protected int unitPrice, idCategory;
+    DecimalFormat formatter = new DecimalFormat("###,###,###");
 
     public FoodItem() {
     }
@@ -74,7 +76,7 @@ public class FoodItem {
 
     @Override
     public String toString() {
-        return "FoodItem{" + "id=" + id + ", name=" + name + ", description=" + description + ", urlImage=" + urlImage + ", unitName=" + unitName + ", unitPrice=" + unitPrice + ", idCategory=" + idCategory + '}';
+        return String.format("%s (%s)", name, formatter.format(unitPrice));
     }
 
     public static FoodItem getFromResultSet(ResultSet rs) throws SQLException {

@@ -38,72 +38,29 @@ public class EditOrder extends javax.swing.JFrame {
     FoodItemDao foodItemDao = new FoodItemDao();
     DecimalFormat formatter = new DecimalFormat("###,###,###");
     ArrayList<OrderItem> orderItems;
-    int id = 1;
+    int idOrder = 1;
     Order o;
 
-    public EditOrder(int id) {
+    public EditOrder(int idOrder) {
         initComponents();
-        this.id = id;
+        this.idOrder = idOrder;
         setLocationRelativeTo(null);
         cboEmployee.setModel(emComboBoxModel);
         cboTable.setModel(tbComboBoxModel);
         initData();
         renderFoodCategory();
-        renderFoodItem(4);
+        //In danh sách loại 1
+        renderFoodItem(1);
         renderOrderItem();
 
-    }
-    //Hiển thị các loại món
-
-    private void renderFoodCategory() {
-        try {
-            pnlFoodCategory.removeAll();
-            for (FoodCategory foodCategory : foodCategoryDao.getAll()) {
-                FoodCategoryPane pnl = new FoodCategoryPane(foodCategory);
-                pnlFoodCategory.add(pnl);
-                pnl.addMouseListener(new java.awt.event.MouseAdapter() {
-                    @Override
-                    public void mousePressed(java.awt.event.MouseEvent evt) {
-                        FoodCategory f = pnl.getFoodCategory();
-                        System.out.println(f.getId());
-                        if (f != null) {
-                            renderFoodItem(f.getId());
-                        }
-                    }
-                });
-            }
-            pnlFoodCategory.updateUI();
-        } catch (SQLException ex) {
-            ErrorPopup.show(ex);
-        }
-    }
-
-    // In danh sách món thuộc loại đã chọn
-    private void renderFoodItem(int idCategory) {
-        try {
-            pnlFoodItem.removeAll();
-            for (FoodItem foodItem : foodItemDao.getByIdCategory(idCategory)) {
-                FoodItemPane pane = new FoodItemPane(foodItem);
-                pnlFoodItem.add(pane);
-                pane.addMouseListener(new java.awt.event.MouseAdapter() {
-                    @Override
-                    public void mousePressed(java.awt.event.MouseEvent evt) {
-                        System.out.println(pane.getFoodItem());
-                    }
-                });
-            }
-            pnlFoodItem.updateUI();
-
-        } catch (Exception ex) {
-            ErrorPopup.show(ex);
-        }
     }
 
     //Khởi tạo dữ liệu cho các combobox
     private void initData() {
         try {
-            orderItems = orderItemDao.getByIdOrder(id);
-            o = orderDao.get(id);
+            //Lấy danh sách món đã đặt của order
+            orderItems = orderItemDao.getByIdOrder(idOrder);
+            o = orderDao.get(idOrder);
             o.setTotalAmount(caculateTotalAmount());
             tbComboBoxModel.removeAllElements();
             emComboBoxModel.removeAllElements();
@@ -127,21 +84,97 @@ public class EditOrder extends javax.swing.JFrame {
             spnDiscount.setValue(o.getDiscount());
             cboType.setSelectedItem(o.getType().getName());
             lbDiscount.setText(o.getDiscount() + "");
-            updateAmount();
         } catch (Exception e) {
             this.dispose();
             ErrorPopup.show(e);
         }
     }
 
-    public void renderOrderItem() {
+    //Hiển thị các loại món
+    private void renderFoodCategory() {
+        try {
+            pnlFoodCategory.removeAll();
+            for (FoodCategory foodCategory : foodCategoryDao.getAll()) {
+                FoodCategoryPane pnl = new FoodCategoryPane(foodCategory);
+                pnlFoodCategory.add(pnl);
+                pnl.addMouseListener(new java.awt.event.MouseAdapter() {
+                    @Override
+                    //Chọn loại món
+                    public void mousePressed(java.awt.event.MouseEvent evt) {
+                        FoodCategory f = pnl.getFoodCategory();
+                        if (f != null && f.getId() > 0) {
+                            renderFoodItem(f.getId());
+                        }
+                    }
+                });
+            }
+            pnlFoodCategory.updateUI();
+        } catch (SQLException ex) {
+            ErrorPopup.show(ex);
+        }
+    }
+
+    // In danh sách món thuộc loại đã chọn
+    private void renderFoodItem(int idCategory) {
+        try {
+            pnlFoodItem.removeAll();
+
+            for (FoodItem foodItem : foodItemDao.getByIdCategory(idCategory)) {
+                FoodItemPane pane = new FoodItemPane(foodItem);
+                pnlFoodItem.add(pane);
+                EditOrder parrent = this;
+                pane.addMouseListener(new java.awt.event.MouseAdapter() {
+                    @Override
+                    public void mousePressed(java.awt.event.MouseEvent evt) {
+                        //Sự kiện chọn món
+                        System.out.println("Thêm món: " + pane.getFoodItem());
+                        new AddOrderItem(parrent, pane.getFoodItem()).setVisible(true);
+                    }
+                });
+            }
+            pnlFoodItem.updateUI();
+
+        } catch (Exception ex) {
+            ErrorPopup.show(ex);
+        }
+    }
+
+    //Hiển thị các món đã đặt
+    private void renderOrderItem() {
         pnlOrderItem.removeAll();
         for (OrderItem orderItem : orderItems) {
             pnlOrderItem.add(new OrderItemPane(orderItem, this));
+//            System.out.println(orderItem);
         }
+        updateAmount();
         pnlOrderItem.updateUI();
     }
 
+    //Thêm món vào danh sách
+    public void addOrderItem(OrderItem newItem) {
+        //Kiểm tra rỗng
+        if (newItem == null) {
+            return;
+        }
+        newItem.setIdOrder(idOrder);
+        for (OrderItem orderItem : orderItems) {
+            //Nếu đã tồn tại món trong danh sách
+            if (newItem.equals(orderItem)) {
+                //Cập nhật số lượng
+                orderItem.setQuantity(orderItem.getQuantity() + newItem.getQuantity());
+                //Cập nhật giá
+                orderItem.setFoodPrice(newItem.getFoodPrice());
+                //Hiển thị lại món
+//                renderOrderItem();
+                return;
+            }
+        }
+        //Nếu chưa tồn tại
+        orderItems.add(newItem);
+        renderOrderItem();
+    }
+
+    //Cập nhật tổng tiền
     public void updateAmount() {
         o.setTotalAmount(caculateTotalAmount());
         lbDiscount.setText(o.getDiscount() + "");
@@ -150,6 +183,7 @@ public class EditOrder extends javax.swing.JFrame {
         lbTotalAmount.setText(formatter.format(o.getTotalAmount()));
     }
 
+    //Tính tiền
     private int caculateTotalAmount() {
         int totalAmount = 0;
         for (OrderItem orderItem : orderItems) {
@@ -179,7 +213,7 @@ public class EditOrder extends javax.swing.JFrame {
         jPanel3 = new javax.swing.JPanel();
         btnUpdate = new javax.swing.JButton();
         btnCancelOrder = new javax.swing.JButton();
-        btnCollapseFoodItem = new javax.swing.JButton();
+        btnShipManager = new javax.swing.JButton();
         btnPaid = new javax.swing.JButton();
         btnClose = new javax.swing.JButton();
         jPanel4 = new javax.swing.JPanel();
@@ -345,10 +379,10 @@ public class EditOrder extends javax.swing.JFrame {
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel3.add(btnCancelOrder, gridBagConstraints);
 
-        btnCollapseFoodItem.setText("Quản lý ship");
-        btnCollapseFoodItem.addActionListener(new java.awt.event.ActionListener() {
+        btnShipManager.setText("Quản lý ship");
+        btnShipManager.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnCollapseFoodItemActionPerformed(evt);
+                btnShipManagerActionPerformed(evt);
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -357,7 +391,7 @@ public class EditOrder extends javax.swing.JFrame {
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel3.add(btnCollapseFoodItem, gridBagConstraints);
+        jPanel3.add(btnShipManager, gridBagConstraints);
 
         btnPaid.setText("Thanh Toán");
         btnPaid.addActionListener(new java.awt.event.ActionListener() {
@@ -513,7 +547,7 @@ public class EditOrder extends javax.swing.JFrame {
         jScrollPane1.setOpaque(false);
         jScrollPane1.setPreferredSize(new java.awt.Dimension(525, 5002));
 
-        pnlOrderItem.setMaximumSize(new java.awt.Dimension(500, 5000));
+        pnlOrderItem.setMaximumSize(new java.awt.Dimension(515, 5000));
         pnlOrderItem.setPreferredSize(new java.awt.Dimension(515, 5000));
         jScrollPane1.setViewportView(pnlOrderItem);
 
@@ -553,8 +587,10 @@ public class EditOrder extends javax.swing.JFrame {
         pnlFoodCategory.setPreferredSize(new java.awt.Dimension(150, 600));
         pnlFoodCategory.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.CENTER, 0, 5));
 
+        jPanel9.setBackground(new java.awt.Color(153, 153, 255));
         jPanel9.setPreferredSize(new java.awt.Dimension(150, 50));
 
+        jLabel11.setBackground(new java.awt.Color(102, 51, 0));
         jLabel11.setText("Trà sữa");
 
         javax.swing.GroupLayout jPanel9Layout = new javax.swing.GroupLayout(jPanel9);
@@ -576,6 +612,7 @@ public class EditOrder extends javax.swing.JFrame {
 
         pnlFoodCategory.add(jPanel9);
 
+        jPanel10.setBackground(new java.awt.Color(51, 255, 255));
         jPanel10.setPreferredSize(new java.awt.Dimension(150, 50));
 
         jLabel12.setText("Bánh");
@@ -806,9 +843,9 @@ public class EditOrder extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnPaidActionPerformed
 
-    private void btnCollapseFoodItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCollapseFoodItemActionPerformed
+    private void btnShipManagerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnShipManagerActionPerformed
 
-    }//GEN-LAST:event_btnCollapseFoodItemActionPerformed
+    }//GEN-LAST:event_btnShipManagerActionPerformed
 
     public static void main(String args[]) {
         try {
@@ -828,8 +865,8 @@ public class EditOrder extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCancelOrder;
     private javax.swing.JButton btnClose;
-    private javax.swing.JButton btnCollapseFoodItem;
     private javax.swing.JButton btnPaid;
+    private javax.swing.JButton btnShipManager;
     private javax.swing.JButton btnUpdate;
     private javax.swing.JComboBox<Employee> cboEmployee;
     private javax.swing.JComboBox<Table> cboTable;

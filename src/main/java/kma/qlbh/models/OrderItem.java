@@ -105,7 +105,6 @@ public class OrderItem {
     public int getAmount() {
         return quantity * (foodPrice + toppingPrice);
     }
-    
 
     public static OrderItem getFromResultSet(ResultSet rs) throws SQLException {
         OrderItem oi = new OrderItem();
@@ -121,7 +120,31 @@ public class OrderItem {
 
     @Override
     public String toString() {
-        return "OrderItem{" + "idOrder=" + idOrder + ", idFoodItem=" + idFoodItem + ", idTopping=" + idTopping + ", quantity=" + quantity + ", foodPrice=" + foodPrice + ", toppingPrice=" + toppingPrice + ", note=" + note + '}';
+        return "OrderItem{" + "idOrder=" + idOrder + ", idFoodItem=" + idFoodItem + ", idTopping=" + idTopping + ", quantity=" + quantity + ", foodPrice=" + foodPrice + ", toppingPrice=" + toppingPrice + ", note=" + note + ", foodItem=" + foodItem + ", toppingItem=" + toppingItem + '}';
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final OrderItem other = (OrderItem) obj;
+        if (this.idOrder != other.idOrder) {
+            return false;
+        }
+        if (this.idFoodItem != other.idFoodItem) {
+            return false;
+        }
+        if (this.idTopping != other.idTopping) {
+            return false;
+        }
+        return true;
     }
 
 }
