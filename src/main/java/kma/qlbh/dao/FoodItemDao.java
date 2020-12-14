@@ -29,6 +29,18 @@ public class FoodItemDao implements Dao<FoodItem> {
         return foodItems;
     }
 
+    public ArrayList<FoodItem> getByIdCategory(int id) throws SQLException {
+        ArrayList<FoodItem> foodItems = new ArrayList<>();
+        Statement statement = conn.createStatement();
+        String query = "SELECT * FROM `food_item` WHERE `idCategory` = " + id;
+        ResultSet rs = statement.executeQuery(query);
+        while (rs.next()) {
+            FoodItem foodItem = FoodItem.getFromResultSet(rs);
+            foodItems.add(foodItem);
+        }
+        return foodItems;
+    }
+
     @Override
     public FoodItem get(int id) throws SQLException {
         Statement statement = conn.createStatement();

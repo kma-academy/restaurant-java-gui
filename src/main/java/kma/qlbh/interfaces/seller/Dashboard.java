@@ -2,12 +2,14 @@ package kma.qlbh.interfaces.seller;
 
 import java.util.ArrayList;
 import javax.swing.JFrame;
-import kma.qlbh.models.Food;
+import kma.qlbh.dao.FoodItemDao;
+import kma.qlbh.models.FoodItem;
+import kma.qlbh.utils.ErrorPopup;
 
 public class Dashboard extends javax.swing.JFrame {
 
-    ArrayList<Food> foods = new ArrayList<>();
-
+    ArrayList<FoodItem> foods = new ArrayList<>();
+    FoodItemDao foodItemDao = new FoodItemDao();
     public Dashboard() {
         initComponents();
         setExtendedState(JFrame.MAXIMIZED_BOTH);
@@ -20,9 +22,12 @@ public class Dashboard extends javax.swing.JFrame {
     }
 
     private void initItems() {
-        for (int i = 0; i < 12; i++) {
-            foods.add(new Food(i, "Trà hoa hồng đá (L)", "", "tra-hoa-hong-da.png", "Ly", 40000 + i * 1000, 1));
+        try {             
+            foods = foodItemDao.getAll();        
+        } catch (Exception e) {
+            ErrorPopup.show(e);
         }
+      
     }
 
     /**

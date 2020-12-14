@@ -7,6 +7,7 @@ import javax.swing.table.DefaultTableModel;
 import kma.qlbh.dao.EmployeeDao;
 import kma.qlbh.dao.OrderDao;
 import kma.qlbh.dao.TableDao;
+import kma.qlbh.interfaces.admin.order.AddOrder;
 import kma.qlbh.models.Order;
 import kma.qlbh.utils.ErrorPopup;
 import kma.qlbh.utils.IconManager;
@@ -144,7 +145,8 @@ public class OrderManager extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
-
+        AddOrder pnl = new AddOrder(this);
+        pnl.setVisible(true);
     }//GEN-LAST:event_btnAddActionPerformed
 
     private void btnEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditActionPerformed
@@ -166,13 +168,13 @@ public class OrderManager extends javax.swing.JPanel {
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
         int selectedRows[] = tblTables.getSelectedRows();
         try {
-            if (JOptionPane.showConfirmDialog(null, "Xác nhận xóa hàng loạt?", "Xóa nhân viên", ERROR_MESSAGE) != YES_OPTION) {
+            if (JOptionPane.showConfirmDialog(null, "Xác nhận xóa hàng loạt?", "Xóa đơn hàng", ERROR_MESSAGE) != YES_OPTION) {
                 return;
             }
             for (int i = 0; i < selectedRows.length; i++) {
                 int selectedRow = selectedRows[i];
                 int id = (int) tblTables.getValueAt(selectedRow, 0);
-                employeeDao.deleteById(id);
+                orderDao.deleteById(id);
             }
         } catch (Exception e) {
             ErrorPopup.show(e);

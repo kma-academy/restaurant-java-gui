@@ -2,7 +2,7 @@ package kma.qlbh.interfaces.seller;
 
 import java.awt.Dimension;
 import java.text.DecimalFormat;
-import kma.qlbh.models.Food;
+import kma.qlbh.models.FoodItem;
 import kma.qlbh.utils.ImageManager;
 
 /**
@@ -11,7 +11,7 @@ import kma.qlbh.utils.ImageManager;
  */
 public class FoodPane extends javax.swing.JPanel {
 
-    DecimalFormat decimalFormat = new DecimalFormat("###,###");
+    DecimalFormat decimalFormat = new DecimalFormat("###,###,###");
 
     public FoodPane() {
         initComponents();
@@ -19,17 +19,17 @@ public class FoodPane extends javax.swing.JPanel {
         setPreferredSize(size);
     }
 
-    public FoodPane(Food food) {
+    public FoodPane(FoodItem foodItem) {
         initComponents();
         Dimension size = new Dimension(200, 200);
         setPreferredSize(size);
         setMaximumSize(size);
         setMinimumSize(size);
-        lbName.setText(food.getName());
+        lbName.setText(foodItem.getName());
         lbCount.setText("10");
-        lbPrice.setText(decimalFormat.format(food.getUnitPrice()));
-        if (food.getUrlImage() != null) {
-            lbImage.setIcon(new ImageManager().getImage(food.getUrlImage()));
+        lbPrice.setText(decimalFormat.format(foodItem.getUnitPrice()));
+        if (foodItem.getUrlImage() != null) {
+            lbImage.setIcon(new ImageManager().getImage(foodItem.getUrlImage()));
         } else {
             lbImage.setIcon(null);
         }

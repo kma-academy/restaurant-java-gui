@@ -2,7 +2,6 @@ package kma.qlbh.interfaces.admin.order;
 
 import java.text.DecimalFormat;
 import javax.swing.ImageIcon;
-import kma.qlbh.dao.FoodItemDao;
 import kma.qlbh.models.OrderItem;
 import kma.qlbh.utils.ErrorPopup;
 import kma.qlbh.utils.ImageManager;
@@ -15,7 +14,6 @@ import kma.qlbh.utils.ImageManager;
 public class OrderItemPane extends javax.swing.JPanel {
 
     OrderItem orderItem;
-    FoodItemDao foodItemDao;
     ImageManager im = new ImageManager();
     EditOrder e;
     DecimalFormat formatter = new DecimalFormat("###,###,###");

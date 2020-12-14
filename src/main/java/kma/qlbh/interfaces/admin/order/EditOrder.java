@@ -1,14 +1,19 @@
 package kma.qlbh.interfaces.admin.order;
 
+import java.sql.SQLException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
 import kma.qlbh.dao.EmployeeDao;
+import kma.qlbh.dao.FoodCategoryDao;
+import kma.qlbh.dao.FoodItemDao;
 import kma.qlbh.dao.OrderDao;
 import kma.qlbh.dao.OrderItemDao;
 import kma.qlbh.dao.TableDao;
 import kma.qlbh.models.Employee;
+import kma.qlbh.models.FoodCategory;
+import kma.qlbh.models.FoodItem;
 import kma.qlbh.models.Order;
 import kma.qlbh.models.OrderItem;
 import kma.qlbh.models.Table;
@@ -29,21 +34,72 @@ public class EditOrder extends javax.swing.JFrame {
     TableDao tableDao = new TableDao();
     OrderDao orderDao = new OrderDao();
     OrderItemDao orderItemDao = new OrderItemDao();
+    FoodCategoryDao foodCategoryDao = new FoodCategoryDao();
+    FoodItemDao foodItemDao = new FoodItemDao();
     DecimalFormat formatter = new DecimalFormat("###,###,###");
     ArrayList<OrderItem> orderItems;
     int id = 1;
     Order o;
 
-    public EditOrder() {
+    public EditOrder(int id) {
         initComponents();
+        this.id = id;
         setLocationRelativeTo(null);
         cboEmployee.setModel(emComboBoxModel);
         cboTable.setModel(tbComboBoxModel);
         initData();
+        renderFoodCategory();
+        renderFoodItem(4);
         renderOrderItem();
 
     }
+    //Hiển thị các loại món
 
+    private void renderFoodCategory() {
+        try {
+            pnlFoodCategory.removeAll();
+            for (FoodCategory foodCategory : foodCategoryDao.getAll()) {
+                FoodCategoryPane pnl = new FoodCategoryPane(foodCategory);
+                pnlFoodCategory.add(pnl);
+                pnl.addMouseListener(new java.awt.event.MouseAdapter() {
+                    @Override
+                    public void mousePressed(java.awt.event.MouseEvent evt) {
+                        FoodCategory f = pnl.getFoodCategory();
+                        System.out.println(f.getId());
+                        if (f != null) {
+                            renderFoodItem(f.getId());
+                        }
+                    }
+                });
+            }
+            pnlFoodCategory.updateUI();
+        } catch (SQLException ex) {
+            ErrorPopup.show(ex);
+        }
+    }
+
+    // In danh sách món thuộc loại đã chọn
+    private void renderFoodItem(int idCategory) {
+        try {
+            pnlFoodItem.removeAll();
+            for (FoodItem foodItem : foodItemDao.getByIdCategory(idCategory)) {
+                FoodItemPane pane = new FoodItemPane(foodItem);
+                pnlFoodItem.add(pane);
+                pane.addMouseListener(new java.awt.event.MouseAdapter() {
+                    @Override
+                    public void mousePressed(java.awt.event.MouseEvent evt) {
+                        System.out.println(pane.getFoodItem());
+                    }
+                });
+            }
+            pnlFoodItem.updateUI();
+
+        } catch (Exception ex) {
+            ErrorPopup.show(ex);
+        }
+    }
+
+    //Khởi tạo dữ liệu cho các combobox
     private void initData() {
         try {
             orderItems = orderItemDao.getByIdOrder(id);
@@ -108,6 +164,8 @@ public class EditOrder extends javax.swing.JFrame {
         java.awt.GridBagConstraints gridBagConstraints;
 
         jLabel1 = new javax.swing.JLabel();
+        pnlRoot = new javax.swing.JPanel();
+        jPanel6 = new javax.swing.JPanel();
         jPanel1 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
@@ -118,13 +176,10 @@ public class EditOrder extends javax.swing.JFrame {
         cboEmployee = new javax.swing.JComboBox<>();
         cboTable = new javax.swing.JComboBox<>();
         cboType = new javax.swing.JComboBox<>();
-        jPanel2 = new javax.swing.JPanel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        pnlOrderItem = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
         btnUpdate = new javax.swing.JButton();
         btnCancelOrder = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
+        btnCollapseFoodItem = new javax.swing.JButton();
         btnPaid = new javax.swing.JButton();
         btnClose = new javax.swing.JButton();
         jPanel4 = new javax.swing.JPanel();
@@ -140,6 +195,22 @@ public class EditOrder extends javax.swing.JFrame {
         jLabel10 = new javax.swing.JLabel();
         lbPaidAmount = new javax.swing.JLabel();
         jLabel16 = new javax.swing.JLabel();
+        jPanel7 = new javax.swing.JPanel();
+        jPanel2 = new javax.swing.JPanel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        pnlOrderItem = new javax.swing.JPanel();
+        pnlCenter = new javax.swing.JPanel();
+        pnlFoodCategory = new javax.swing.JPanel();
+        jPanel9 = new javax.swing.JPanel();
+        jLabel11 = new javax.swing.JLabel();
+        jPanel10 = new javax.swing.JPanel();
+        jLabel12 = new javax.swing.JLabel();
+        jPanel11 = new javax.swing.JPanel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        pnlFoodItem = new javax.swing.JPanel();
+        jPanel5 = new javax.swing.JPanel();
+        jPanel12 = new javax.swing.JPanel();
+        jPanel13 = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setAutoRequestFocus(false);
@@ -147,7 +218,14 @@ public class EditOrder extends javax.swing.JFrame {
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel1.setText("Cập nhật hóa đơn");
 
+        pnlRoot.setPreferredSize(new java.awt.Dimension(1080, 600));
+        pnlRoot.setLayout(new java.awt.BorderLayout());
+
+        jPanel6.setPreferredSize(new java.awt.Dimension(250, 601));
+        jPanel6.setLayout(new java.awt.BorderLayout());
+
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Chỉnh sửa thông tin"));
+        jPanel1.setPreferredSize(new java.awt.Dimension(250, 200));
         jPanel1.setLayout(new java.awt.GridBagLayout());
 
         jLabel2.setText("Nhân viên:");
@@ -230,25 +308,10 @@ public class EditOrder extends javax.swing.JFrame {
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel1.add(cboType, gridBagConstraints);
 
-        jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder("Danh sách món"));
-        jPanel2.setPreferredSize(new java.awt.Dimension(525, 800));
-
-        pnlOrderItem.setMaximumSize(new java.awt.Dimension(500, 5000));
-        pnlOrderItem.setPreferredSize(new java.awt.Dimension(500, 5000));
-        jScrollPane1.setViewportView(pnlOrderItem);
-
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 525, javax.swing.GroupLayout.PREFERRED_SIZE)
-        );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 572, Short.MAX_VALUE)
-        );
+        jPanel6.add(jPanel1, java.awt.BorderLayout.PAGE_START);
 
         jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder("Thao tác"));
+        jPanel3.setPreferredSize(new java.awt.Dimension(250, 175));
         jPanel3.setLayout(new java.awt.GridBagLayout());
 
         btnUpdate.setText("Cập Nhật");
@@ -259,9 +322,9 @@ public class EditOrder extends javax.swing.JFrame {
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.weightx = 0.1;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel3.add(btnUpdate, gridBagConstraints);
@@ -273,24 +336,28 @@ public class EditOrder extends javax.swing.JFrame {
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 3;
-        gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 2;
         gridBagConstraints.gridwidth = 2;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.weightx = 0.1;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel3.add(btnCancelOrder, gridBagConstraints);
 
-        jButton3.setText("Chọn món");
+        btnCollapseFoodItem.setText("Quản lý ship");
+        btnCollapseFoodItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCollapseFoodItemActionPerformed(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
-        gridBagConstraints.weightx = 0.1;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel3.add(jButton3, gridBagConstraints);
+        jPanel3.add(btnCollapseFoodItem, gridBagConstraints);
 
         btnPaid.setText("Thanh Toán");
         btnPaid.addActionListener(new java.awt.event.ActionListener() {
@@ -299,10 +366,10 @@ public class EditOrder extends javax.swing.JFrame {
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 3;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.weightx = 0.1;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel3.add(btnPaid, gridBagConstraints);
@@ -314,13 +381,15 @@ public class EditOrder extends javax.swing.JFrame {
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 2;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.weightx = 0.1;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel3.add(btnClose, gridBagConstraints);
+
+        jPanel6.add(jPanel3, java.awt.BorderLayout.PAGE_END);
 
         jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder("Thông tin hóa đơn"));
         jPanel4.setLayout(new java.awt.GridBagLayout());
@@ -430,23 +499,200 @@ public class EditOrder extends javax.swing.JFrame {
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel4.add(jLabel16, gridBagConstraints);
 
+        jPanel6.add(jPanel4, java.awt.BorderLayout.CENTER);
+
+        pnlRoot.add(jPanel6, java.awt.BorderLayout.LINE_START);
+
+        jPanel7.setBackground(new java.awt.Color(102, 102, 0));
+        jPanel7.setPreferredSize(new java.awt.Dimension(525, 600));
+
+        jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder("Danh sách món đã đặt"));
+        jPanel2.setPreferredSize(new java.awt.Dimension(525, 800));
+
+        jScrollPane1.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+        jScrollPane1.setOpaque(false);
+        jScrollPane1.setPreferredSize(new java.awt.Dimension(525, 5002));
+
+        pnlOrderItem.setMaximumSize(new java.awt.Dimension(500, 5000));
+        pnlOrderItem.setPreferredSize(new java.awt.Dimension(515, 5000));
+        jScrollPane1.setViewportView(pnlOrderItem);
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 515, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 571, Short.MAX_VALUE))
+        );
+
+        javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
+        jPanel7.setLayout(jPanel7Layout);
+        jPanel7Layout.setHorizontalGroup(
+            jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel7Layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 529, javax.swing.GroupLayout.PREFERRED_SIZE))
+        );
+        jPanel7Layout.setVerticalGroup(
+            jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, 600, Short.MAX_VALUE)
+        );
+
+        pnlRoot.add(jPanel7, java.awt.BorderLayout.LINE_END);
+
+        pnlCenter.setPreferredSize(new java.awt.Dimension(500, 600));
+        pnlCenter.setLayout(new java.awt.BorderLayout());
+
+        pnlFoodCategory.setPreferredSize(new java.awt.Dimension(150, 600));
+        pnlFoodCategory.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.CENTER, 0, 5));
+
+        jPanel9.setPreferredSize(new java.awt.Dimension(150, 50));
+
+        jLabel11.setText("Trà sữa");
+
+        javax.swing.GroupLayout jPanel9Layout = new javax.swing.GroupLayout(jPanel9);
+        jPanel9.setLayout(jPanel9Layout);
+        jPanel9Layout.setHorizontalGroup(
+            jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel9Layout.createSequentialGroup()
+                .addGap(49, 49, 49)
+                .addComponent(jLabel11)
+                .addContainerGap(64, Short.MAX_VALUE))
+        );
+        jPanel9Layout.setVerticalGroup(
+            jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel9Layout.createSequentialGroup()
+                .addGap(16, 16, 16)
+                .addComponent(jLabel11)
+                .addContainerGap(18, Short.MAX_VALUE))
+        );
+
+        pnlFoodCategory.add(jPanel9);
+
+        jPanel10.setPreferredSize(new java.awt.Dimension(150, 50));
+
+        jLabel12.setText("Bánh");
+
+        javax.swing.GroupLayout jPanel10Layout = new javax.swing.GroupLayout(jPanel10);
+        jPanel10.setLayout(jPanel10Layout);
+        jPanel10Layout.setHorizontalGroup(
+            jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel10Layout.createSequentialGroup()
+                .addGap(55, 55, 55)
+                .addComponent(jLabel12)
+                .addContainerGap(68, Short.MAX_VALUE))
+        );
+        jPanel10Layout.setVerticalGroup(
+            jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel10Layout.createSequentialGroup()
+                .addGap(17, 17, 17)
+                .addComponent(jLabel12)
+                .addContainerGap(17, Short.MAX_VALUE))
+        );
+
+        pnlFoodCategory.add(jPanel10);
+
+        pnlCenter.add(pnlFoodCategory, java.awt.BorderLayout.LINE_START);
+
+        jPanel11.setOpaque(false);
+        jPanel11.setPreferredSize(new java.awt.Dimension(625, 600));
+
+        jScrollPane2.setBackground(new java.awt.Color(153, 153, 0));
+        jScrollPane2.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+        jScrollPane2.setOpaque(false);
+        jScrollPane2.setPreferredSize(new java.awt.Dimension(625, 600));
+
+        pnlFoodItem.setMaximumSize(new java.awt.Dimension(615, 10000));
+        pnlFoodItem.setMinimumSize(new java.awt.Dimension(615, 1000));
+        pnlFoodItem.setName(""); // NOI18N
+        pnlFoodItem.setPreferredSize(new java.awt.Dimension(615, 5000));
+        pnlFoodItem.setRequestFocusEnabled(false);
+        pnlFoodItem.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT));
+
+        jPanel5.setBackground(new java.awt.Color(102, 51, 0));
+        jPanel5.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        jPanel5.setToolTipText("");
+
+        javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
+        jPanel5.setLayout(jPanel5Layout);
+        jPanel5Layout.setHorizontalGroup(
+            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 300, Short.MAX_VALUE)
+        );
+        jPanel5Layout.setVerticalGroup(
+            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 75, Short.MAX_VALUE)
+        );
+
+        pnlFoodItem.add(jPanel5);
+
+        jPanel12.setBackground(new java.awt.Color(102, 51, 0));
+        jPanel12.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        jPanel12.setToolTipText("");
+
+        javax.swing.GroupLayout jPanel12Layout = new javax.swing.GroupLayout(jPanel12);
+        jPanel12.setLayout(jPanel12Layout);
+        jPanel12Layout.setHorizontalGroup(
+            jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 300, Short.MAX_VALUE)
+        );
+        jPanel12Layout.setVerticalGroup(
+            jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 75, Short.MAX_VALUE)
+        );
+
+        pnlFoodItem.add(jPanel12);
+
+        jPanel13.setBackground(new java.awt.Color(102, 0, 0));
+        jPanel13.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        jPanel13.setToolTipText("");
+
+        javax.swing.GroupLayout jPanel13Layout = new javax.swing.GroupLayout(jPanel13);
+        jPanel13.setLayout(jPanel13Layout);
+        jPanel13Layout.setHorizontalGroup(
+            jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 300, Short.MAX_VALUE)
+        );
+        jPanel13Layout.setVerticalGroup(
+            jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 75, Short.MAX_VALUE)
+        );
+
+        pnlFoodItem.add(jPanel13);
+
+        jScrollPane2.setViewportView(pnlFoodItem);
+
+        javax.swing.GroupLayout jPanel11Layout = new javax.swing.GroupLayout(jPanel11);
+        jPanel11.setLayout(jPanel11Layout);
+        jPanel11Layout.setHorizontalGroup(
+            jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+        jPanel11Layout.setVerticalGroup(
+            jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+
+        pnlCenter.add(jPanel11, java.awt.BorderLayout.CENTER);
+
+        pnlRoot.add(pnlCenter, java.awt.BorderLayout.CENTER);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(pnlRoot, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, 278, Short.MAX_VALUE)
-                    .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 535, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
-            .addGroup(layout.createSequentialGroup()
-                .addGap(340, 340, 340)
+                .addContainerGap(716, Short.MAX_VALUE)
                 .addComponent(jLabel1)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(716, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -454,15 +700,7 @@ public class EditOrder extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 595, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 214, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, 168, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(pnlRoot, javax.swing.GroupLayout.PREFERRED_SIZE, 600, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         pack();
@@ -568,6 +806,10 @@ public class EditOrder extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnPaidActionPerformed
 
+    private void btnCollapseFoodItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCollapseFoodItemActionPerformed
+
+    }//GEN-LAST:event_btnCollapseFoodItemActionPerformed
+
     public static void main(String args[]) {
         try {
             javax.swing.UIManager.setLookAndFeel("com.formdev.flatlaf.FlatLightLaf");
@@ -578,7 +820,7 @@ public class EditOrder extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new EditOrder().setVisible(true);
+                new EditOrder(1).setVisible(true);
             }
         });
     }
@@ -586,14 +828,16 @@ public class EditOrder extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCancelOrder;
     private javax.swing.JButton btnClose;
+    private javax.swing.JButton btnCollapseFoodItem;
     private javax.swing.JButton btnPaid;
     private javax.swing.JButton btnUpdate;
     private javax.swing.JComboBox<Employee> cboEmployee;
     private javax.swing.JComboBox<Table> cboTable;
     private javax.swing.JComboBox<String> cboType;
-    private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
@@ -607,15 +851,28 @@ public class EditOrder extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel10;
+    private javax.swing.JPanel jPanel11;
+    private javax.swing.JPanel jPanel12;
+    private javax.swing.JPanel jPanel13;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
+    private javax.swing.JPanel jPanel5;
+    private javax.swing.JPanel jPanel6;
+    private javax.swing.JPanel jPanel7;
+    private javax.swing.JPanel jPanel9;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JLabel lbDiscount;
     private javax.swing.JLabel lbFinalAmount;
     private javax.swing.JLabel lbPaidAmount;
     private javax.swing.JLabel lbTotalAmount;
+    private javax.swing.JPanel pnlCenter;
+    private javax.swing.JPanel pnlFoodCategory;
+    private javax.swing.JPanel pnlFoodItem;
     private javax.swing.JPanel pnlOrderItem;
+    private javax.swing.JPanel pnlRoot;
     private javax.swing.JSpinner spnDiscount;
     // End of variables declaration//GEN-END:variables
 }

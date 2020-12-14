@@ -10,6 +10,7 @@ import javax.swing.JOptionPane;
 import kma.qlbh.dao.EmployeeDao;
 import kma.qlbh.dao.OrderDao;
 import kma.qlbh.dao.TableDao;
+import kma.qlbh.interfaces.admin.OrderManager;
 import kma.qlbh.models.Employee;
 import kma.qlbh.models.Order;
 import kma.qlbh.models.Table;
@@ -29,9 +30,11 @@ public class AddOrder extends javax.swing.JFrame {
     EmployeeDao employeeDao = new EmployeeDao();
     TableDao tableDao = new TableDao();
     OrderDao orderDao = new OrderDao();
+    OrderManager orderManager;
 
-    public AddOrder() {
+    public AddOrder(OrderManager orderManager) {
         initComponents();
+        this.orderManager = orderManager;
         setLocationRelativeTo(null);
         cboEmployee.setModel(emComboBoxModel);
         cboTable.setModel(tbComboBoxModel);
@@ -236,25 +239,12 @@ public class AddOrder extends javax.swing.JFrame {
             tableDao.update(table);
             this.dispose();
             JOptionPane.showMessageDialog(null, "Thêm hóa đơn thành công!");
+            orderManager.renderTable();
         } catch (Exception e) {
             ErrorPopup.show(e);
         }
     }//GEN-LAST:event_btnAddActionPerformed
 
-    public static void main(String args[]) {
-        try {
-            javax.swing.UIManager.setLookAndFeel("com.formdev.flatlaf.FlatLightLaf");
-        } catch (Exception ex) {
-            System.err.println("Failed to initialize LaF");
-        }
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new AddOrder().setVisible(true);
-            }
-        });
-    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAdd;
