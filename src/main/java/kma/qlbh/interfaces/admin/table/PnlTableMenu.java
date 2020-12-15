@@ -13,23 +13,23 @@ import kma.qlbh.models.Table;
  *
  * @author MSI
  */
+
 public class PnlTableMenu extends javax.swing.JPanel {
 
     /**
      * Creates new form PnlTableMenu
      */
     TableDao tableDao = new TableDao();
-
     public PnlTableMenu() {
         initComponents();
         try {
             ArrayList<Table> Tables = tableDao.getAll();
-            for (Table table : Tables) {
+            for(Table table : Tables){
                 this.add(new PnlTable(table.getId(), TOOL_TIP_TEXT_KEY, TOOL_TIP_TEXT_KEY, TOOL_TIP_TEXT_KEY));
             }
         } catch (Exception e) {
         }
-
+        
     }
 
     /**
@@ -43,6 +43,7 @@ public class PnlTableMenu extends javax.swing.JPanel {
 
         setBorder(new javax.swing.border.LineBorder(new java.awt.Color(153, 153, 255), 4, true));
     }// </editor-fold>//GEN-END:initComponents
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     // End of variables declaration//GEN-END:variables

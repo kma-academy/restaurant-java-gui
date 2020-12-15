@@ -22,7 +22,7 @@ import kma.qlbh.utils.StringToSlug;
  * @author Tran Duc Cuong<clonebmn2itt@gmail.com>
  */
 public class EditFoodItem extends javax.swing.JFrame {
-
+    
     FoodItemManager foodItemManager;
     FoodItem foodItem;
     FoodCategoryDao foodCategoryDao = new FoodCategoryDao();
@@ -30,7 +30,7 @@ public class EditFoodItem extends javax.swing.JFrame {
     DefaultComboBoxModel<FoodCategory> comboBoxModel = new DefaultComboBoxModel<>();
     ImageManager im = new ImageManager();
     JFileChooser filechooser;
-
+    
     public EditFoodItem(FoodItemManager fim, int id) {
         initComponents();
         setLocationRelativeTo(null);
@@ -261,7 +261,7 @@ public class EditFoodItem extends javax.swing.JFrame {
     private void btnCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelActionPerformed
         this.dispose();
     }//GEN-LAST:event_btnCancelActionPerformed
-
+    
     private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
         try {
             if (txtName.getText().isEmpty() || txtUnitName.getText().isEmpty() || txtUnitPrice.getText().isEmpty() || cboCategory.getSelectedItem() == null) {
@@ -284,7 +284,7 @@ public class EditFoodItem extends javax.swing.JFrame {
             ErrorPopup.show(e);
         }
     }//GEN-LAST:event_btnSaveActionPerformed
-
+    
     private void btnChooseImageActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnChooseImageActionPerformed
         if (filechooser == null) {
             filechooser = new JFileChooser();
@@ -296,7 +296,7 @@ public class EditFoodItem extends javax.swing.JFrame {
             FileFilter imageFilter = new FileNameExtensionFilter("Hình ảnh(jpg, png, gif,...)", ImageIO.getReaderFileSuffixes());
             filechooser.setFileFilter(imageFilter);
         }
-
+        
         int otp = filechooser.showOpenDialog(this);
         switch (otp) {
             case JFileChooser.APPROVE_OPTION:
@@ -314,7 +314,7 @@ public class EditFoodItem extends javax.swing.JFrame {
             case JFileChooser.CANCEL_OPTION:
                 txtUrlImage.setText("");
                 break;
-
+            
         }
     }//GEN-LAST:event_btnChooseImageActionPerformed
 

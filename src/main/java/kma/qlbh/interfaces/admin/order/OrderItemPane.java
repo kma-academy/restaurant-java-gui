@@ -200,6 +200,7 @@ public class OrderItemPane extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_btnPlusActionPerformed
 
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnMinus;
     private javax.swing.JButton btnPlus;
