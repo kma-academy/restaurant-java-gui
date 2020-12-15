@@ -8,6 +8,7 @@ import kma.qlbh.dao.EmployeeDao;
 import kma.qlbh.dao.OrderDao;
 import kma.qlbh.dao.TableDao;
 import kma.qlbh.interfaces.admin.order.AddOrder;
+import kma.qlbh.interfaces.admin.order.EditOrder;
 import kma.qlbh.models.Order;
 import kma.qlbh.utils.ErrorPopup;
 import kma.qlbh.utils.IconManager;
@@ -25,7 +26,7 @@ public class OrderManager extends javax.swing.JPanel {
     TableDao tableDao = new TableDao();
     OrderDao orderDao = new OrderDao();
     EmployeeDao employeeDao = new EmployeeDao();
-
+    
     public OrderManager() {
         initComponents();
         IconManager im = new IconManager();
@@ -43,7 +44,7 @@ public class OrderManager extends javax.swing.JPanel {
         tblTables.setModel(model);
         renderTable();
     }
-
+    
     public void renderTable() {
         model.setNumRows(0);
         try {
@@ -148,23 +149,23 @@ public class OrderManager extends javax.swing.JPanel {
         AddOrder pnl = new AddOrder(this);
         pnl.setVisible(true);
     }//GEN-LAST:event_btnAddActionPerformed
-
+    
     private void btnEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditActionPerformed
-
+        
         int selectedRow = tblTables.getSelectedRow();
         try {
             if (selectedRow < 0) {
                 throw new Exception("Chọn nhân viên cần edit");
             } else {
                 int id = (int) tblTables.getValueAt(selectedRow, 0);
-
+                new EditOrder(this, id).setVisible(true);
             }
         } catch (Exception e) {
             ErrorPopup.show(e);
         }
-
+        
     }//GEN-LAST:event_btnEditActionPerformed
-
+    
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
         int selectedRows[] = tblTables.getSelectedRows();
         try {

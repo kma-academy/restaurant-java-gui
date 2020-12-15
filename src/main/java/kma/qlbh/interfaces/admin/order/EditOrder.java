@@ -11,6 +11,7 @@ import kma.qlbh.dao.FoodItemDao;
 import kma.qlbh.dao.OrderDao;
 import kma.qlbh.dao.OrderItemDao;
 import kma.qlbh.dao.TableDao;
+import kma.qlbh.interfaces.admin.OrderManager;
 import kma.qlbh.models.Employee;
 import kma.qlbh.models.FoodCategory;
 import kma.qlbh.models.FoodItem;
@@ -30,6 +31,7 @@ public class EditOrder extends javax.swing.JFrame {
 
     DefaultComboBoxModel<Employee> emComboBoxModel = new DefaultComboBoxModel<>();
     DefaultComboBoxModel<Table> tbComboBoxModel = new DefaultComboBoxModel<>();
+    OrderManager parrent;
     EmployeeDao employeeDao = new EmployeeDao();
     TableDao tableDao = new TableDao();
     OrderDao orderDao = new OrderDao();
@@ -41,7 +43,7 @@ public class EditOrder extends javax.swing.JFrame {
     int idOrder = 1;
     Order o;
 
-    public EditOrder(int idOrder) {
+    public EditOrder(OrderManager parrent, int idOrder) {
         initComponents();
         this.idOrder = idOrder;
         setLocationRelativeTo(null);
@@ -846,21 +848,6 @@ public class EditOrder extends javax.swing.JFrame {
     private void btnShipManagerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnShipManagerActionPerformed
 
     }//GEN-LAST:event_btnShipManagerActionPerformed
-
-    public static void main(String args[]) {
-        try {
-            javax.swing.UIManager.setLookAndFeel("com.formdev.flatlaf.FlatLightLaf");
-        } catch (Exception ex) {
-            System.err.println("Failed to initialize LaF");
-        }
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new EditOrder(1).setVisible(true);
-            }
-        });
-    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCancelOrder;
