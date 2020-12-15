@@ -5,7 +5,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Arrays;
 import models.Employee;
+import views.AdminDashboardView;
 import views.LoginView;
+import views.admin.HomeView;
 
 /**
  * createAt Dec 15, 2020
@@ -13,25 +15,25 @@ import views.LoginView;
  * @author Đỗ Tuấn Anh <daclip26@gmail.com>
  */
 public class LoginController {
-
+    
     private LoginView view;
     EmployeeDao employeeDao = new EmployeeDao();
-
+    
     public LoginController(LoginView view) {
         this.view = view;
         view.setVisible(true);
         addEvent();
     }
-
+    
     public LoginView getView() {
         return view;
     }
-
+    
     public void setView(LoginView view) {
         this.view = view;
         view.setVisible(true);
     }
-
+    
     public void login() {
         String username = view.getTxtUsername().getText();
         String password = Arrays.toString(view.getTxtPassword().getPassword());
@@ -45,10 +47,12 @@ public class LoginController {
                 view.showError("Mật khẩu sai");
                 return;
             }
-
+            
             switch (employee.getPermissionName()) {
                 case "Quản lý":
                     //Admin controller
+                    AdminDashboardController controller = new AdminDashboardController(new AdminDashboardView(employee));
+                    controller.setPanel(new HomeView());
                     break;
                 case "Nhân viên":
                     //Seller Controller
